@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -12,32 +13,35 @@
         android:id="@+id/linearLayoutMainPage"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true">
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Single"
-            android:id="@+id/button"
-            android:layout_above="@+id/linearLayoutMainPage"
-            android:layout_alignLeft="@+id/linearLayoutMainPage"
-            android:layout_alignStart="@+id/linearLayoutMainPage" />
 
-        <Button
+        <com.beardedhen.androidbootstrap.BootstrapButton
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Multy"
-            android:id="@+id/button2"
-            android:layout_below="@+id/linearLayoutMainPage"
-            android:layout_centerHorizontal="true" />
-
-        <Button
+            android:layout_margin="10dp"
+            android:text="Single Play"
+            bootstrap:bb_icon_left="fa-heart"
+            bootstrap:bb_roundedCorners="true"
+            bootstrap:bb_type="default"
+            />
+        <com.beardedhen.androidbootstrap.BootstrapButton
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:text="Multiplayer"
+            bootstrap:bb_icon_right="fa-android"
+            bootstrap:bb_roundedCorners="true"
+            bootstrap:bb_type="warning"
+            />
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
             android:text="Settings"
-            android:id="@+id/button3"
-            android:layout_alignBaseline="@+id/button2"
-            android:layout_alignBottom="@+id/button2"
-            android:layout_toLeftOf="@+id/button2"
-            android:layout_toStartOf="@+id/button2" />
+            bootstrap:bb_icon_right="fa-android"
+            bootstrap:bb_type="danger"
+            />
+
+
     </LinearLayout>
 
     <TextView
