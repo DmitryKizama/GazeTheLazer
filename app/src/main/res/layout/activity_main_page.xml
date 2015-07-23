@@ -1,74 +1,120 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainPage">
-
-    <com.skyfishjy.library.RippleBackground
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/content"
-        app:rb_color="#0099CC"
-        app:rb_radius="32dp"
-        app:rb_rippleAmount="4"
-        app:rb_duration="3000"
-        app:rb_scale="6">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/centerImage"/>
-    </com.skyfishjy.library.RippleBackground>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/linearLayoutMainPage"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
-
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:text="Single Play"
-            bootstrap:bb_icon_left="fa-heart"
-            bootstrap:bb_roundedCorners="true"
-            bootstrap:bb_type="default"
-            />
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:text="Multiplayer"
-            bootstrap:bb_icon_right="fa-android"
-            bootstrap:bb_roundedCorners="true"
-            bootstrap:bb_type="warning"
-            />
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:text="Settings"
-            bootstrap:bb_icon_right="fa-android"
-            bootstrap:bb_type="danger"
-            />
-
-
-    </LinearLayout>
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainPage">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Welcome to the Gaze the Lazer"
-        android:id="@+id/textView"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom"
+        android:text="Gaze the Lazer"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/bbutton_danger_pressed_edge" />
+
+
+    <com.beardedhen.androidbootstrap.FontAwesomeText
+        android:id="@+id/settingsImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="25dp"
+        android:layout_marginRight="25dp"
+        android:textSize="52sp"
+        bootstrap:fa_icon="fa-gear" />
+
+    <com.beardedhen.androidbootstrap.FontAwesomeText
+        android:id="@+id/infoAboutAutorsImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="25dp"
+        android:textSize="52sp"
+        bootstrap:fa_icon="fa-pencil" />
+
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/btnMulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="20dp"
+        android:text="Multiplayer"
+        bootstrap:bb_icon_right="fa-users"
+        bootstrap:bb_roundedCorners="true"
+        bootstrap:bb_type="default" />
+
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/btnSingle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnMulty"
+        android:layout_centerHorizontal="true"
+        android:text="Single Play"
+        bootstrap:bb_icon_right="fa-user"
+        bootstrap:bb_roundedCorners="true"
+        bootstrap:bb_type="default" />
+
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/btnInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnMulty"
+        android:layout_centerHorizontal="true"
+        android:text="Information"
+        bootstrap:bb_icon_right="fa-info"
+        bootstrap:bb_roundedCorners="true"
+        bootstrap:bb_type="info" />
+
+    <EditText
+        android:id="@+id/edName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tvSounds"
+        android:layout_centerHorizontal="true"
+        android:hint="write your name"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvSounds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/seekBarSounds"
+        android:layout_centerHorizontal="true"
+        android:text="Sounds in game"
+        android:visibility="gone" />
+
+    <SeekBar
+        android:id="@+id/seekBarSounds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvMusic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/seekBarSounds"
+        android:layout_centerHorizontal="true"
+        android:text="Music in game"
+        android:visibility="gone" />
+
+    <SeekBar
+        android:id="@+id/seekBarMusic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvMusic"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
 
 
 </RelativeLayout>
