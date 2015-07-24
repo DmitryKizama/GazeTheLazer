@@ -1,29 +1,38 @@
 package com.gazethelazer.fotongames.gazethelazer.activity;
 
-import android.animation.Animator;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AbsListView;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.gazethelazer.fotongames.gazethelazer.R;
-import com.gazethelazer.fotongames.gazethelazer.listeners.PureAnimatorListener;
+import com.gazethelazer.fotongames.gazethelazer.controller.ControllerOfSettings;
 import com.gazethelazer.fotongames.gazethelazer.static_and_final_variables.Final;
 
 public class MainPage extends AppCompatActivity {
 
-    private TextView imageSettings, tvSounds, tvMusic;
+    private ControllerOfSettings controllerrSettings = new ControllerOfSettings();
+    private TextView imageSettings, imageAboutAutors, tvSounds, tvMusic;
     private EditText edName;
     private SeekBar seekBarSounds, seekBarMusic;
     private Animation rotate_and_scale, rotate_minus;
     private BootstrapButton btnSingle, btnMulty, btnInfo;
+    private PopupWindow pWindow;
     private boolean CONTERSETTINGSCLICL = true;
+    private boolean ISSHOWING = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,48 +52,82 @@ public class MainPage extends AppCompatActivity {
         btnInfo = (BootstrapButton) findViewById(R.id.btnInfo);
 
         imageSettings = (TextView) findViewById(R.id.settingsImage);
+        imageAboutAutors = (TextView) findViewById(R.id.infoAboutAutorsImage);
         tvMusic = (TextView) findViewById(R.id.tvMusic);
         tvSounds = (TextView) findViewById(R.id.tvSounds);
+
+        LayoutInflater layoutInflater = (LayoutInflater) getApplication()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View popupView = layoutInflater.inflate(R.layout.popup, null);
+        final PopupWindow popupWindow = new PopupWindow(popupView, AbsListView.LayoutParams.WRAP_CONTENT,
+                AbsListView.LayoutParams.WRAP_CONTENT);
+        this.pWindow = popupWindow;
+
+        //move settings menu right
+        controllerrSettings.move(edName, seekBarMusic, seekBarSounds, tvMusic, tvSounds);
 
         imageSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (CONTERSETTINGSCLICL) {
-//                    imageSettings.animate().rotation(360).scaleX(2).scaleY(2).setListener(new PureAnimatorListener() {
-//                        @Override
-//                        public void onAnimationEnd(Animator animation) {
-//
-//                        }
-//                    }).setDuration(Final.DURATION).start();
-
                     imageSettings.startAnimation(rotate_minus);
-                    appearOrDisappearBootstrapButton(btnInfo, Final.MOVINGMINUS, Final.VISIBILITYGONE);
-                    appearOrDisappearBootstrapButton(btnSingle, Final.MOVINGMINUS, Final.VISIBILITYGONE);
-                    appearOrDisappearBootstrapButton(btnMulty, Final.MOVINGMINUS, Final.VISIBILITYGONE);
+                    controllerrSettings.appearOrDisappearView(btnInfo, Final.MOVINGMINUS, Final.VISIBILITYGONE);
+                    controllerrSettings.appearOrDisappearView(btnSingle, Final.MOVINGMINUS, Final.VISIBILITYGONE);
+                    controllerrSettings.appearOrDisappearView(btnMulty, Final.MOVINGMINUS, Final.VISIBILITYGONE);
+
+                    controllerrSettings.appearOrDisappearView(tvMusic, Final.MOVINGZERO, Final.VISIBILITYVISIBLE);
+                    controllerrSettings.appearOrDisappearView(tvSounds, Final.MOVINGZERO, Final.VISIBILITYVISIBLE);
+                    controllerrSettings.appearOrDisappearView(edName, Final.MOVINGZERO, Final.VISIBILITYVISIBLE);
+                    controllerrSettings.appearOrDisappearView(seekBarMusic, Final.MOVINGZERO, Final.VISIBILITYVISIBLE);
+                    controllerrSettings.appearOrDisappearView(seekBarSounds, Final.MOVINGZERO, Final.VISIBILITYVISIBLE);
+
                     CONTERSETTINGSCLICL = false;
                 } else {
                     imageSettings.startAnimation(rotate_and_scale);
-                    appearOrDisappearBootstrapButton(btnInfo, Final.MOVINGPLUS, Final.VISIBILITYVISIBLE);
-                    appearOrDisappearBootstrapButton(btnSingle, Final.MOVINGPLUS, Final.VISIBILITYVISIBLE);
-                    appearOrDisappearBootstrapButton(btnMulty, Final.MOVINGPLUS, Final.VISIBILITYVISIBLE);
+                    controllerrSettings.appearOrDisappearView(btnInfo, Final.MOVINGZERO, Final.VISIBILITYVISIBLE);
+                    controllerrSettings.appearOrDisappearView(btnSingle, Final.MOVINGZERO, Final.VISIBILITYVISIBLE);
+                    controllerrSettings.appearOrDisappearView(btnMulty, Final.MOVINGZERO, Final.VISIBILITYVISIBLE);
+
+                    controllerrSettings.appearOrDisappearView(tvMusic, Final.MOVINGPLUS, Final.VISIBILITYGONE);
+                    controllerrSettings.appearOrDisappearView(tvSounds, Final.MOVINGPLUS, Final.VISIBILITYGONE);
+                    controllerrSettings.appearOrDisappearView(edName, Final.MOVINGPLUS, Final.VISIBILITYGONE);
+                    controllerrSettings.appearOrDisappearView(seekBarMusic, Final.MOVINGPLUS, Final.VISIBILITYGONE);
+                    controllerrSettings.appearOrDisappearView(seekBarSounds, Final.MOVINGPLUS, Final.VISIBILITYGONE);
                     CONTERSETTINGSCLICL = true;
                 }
 
+            }
+        });
 
-//                appearBootstrapButton(tvSounds);
+        imageAboutAutors.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (popupWindow.isShowing()) {
+                    popupWindow.dismiss();
+                }
+                ISSHOWING = true;
+                BootstrapButton btnAsshole = (BootstrapButton) popupView.findViewById(R.id.btnGiveMoney);
+                BootstrapButton btnGiveMoney = (BootstrapButton) popupView.findViewById(R.id.btnGiveMoney);
+                popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
             }
         });
     }
 
-    private void appearOrDisappearBootstrapButton(final BootstrapButton btn, final int move, final int visib) {
-        btn.animate().translationX(move).alpha(visib).setListener(new PureAnimatorListener() {
+    @Override
+    public void onBackPressed() {
+        if (ISSHOWING) {
+            pWindow.dismiss();
+            ISSHOWING = false;
+        } else {
+            new AlertDialog.Builder(this).setTitle("Really Exit?")
+                    .setMessage("Are you sure you want to exit?").setNegativeButton(android.R.string.no, null)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-            @Override
-            public void onAnimationStart(Animator animation) {
-                btn.setVisibility(View.VISIBLE);
-            }
-
-        }).setDuration(Final.DURATION).start();
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            MainPage.super.onBackPressed();
+                        }
+                    }).create().show();
+        }
     }
 
 
@@ -99,7 +142,6 @@ public class MainPage extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }
