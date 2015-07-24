@@ -1,4 +1,4 @@
-package com.testapp.myapplication;
+package com.gazethelazer.fotongames.gazethelazer.activity;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,17 +8,10 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
-/**
- * Created by andrew on 7/23/15.
- */
-public class GameMapView extends View
-{
+public class GameMapView extends View {
     static final int INVALID_POINTER_ID = -1;
 
     float mPreviousX;
@@ -36,12 +29,11 @@ public class GameMapView extends View
     int mScreenWidth;
     int mScreenHeight;
 
-    GameMapView(Context context, AttributeSet attrs, int defStyle)
-    {
+    GameMapView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        mWidth = 1000;
-        mHeight = 1500;
+        mWidth = 2000;
+        mHeight = 3000;
         Bitmap bitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
 
         Canvas c = new Canvas(bitmap);
@@ -52,35 +44,30 @@ public class GameMapView extends View
 
         c.drawColor(Color.WHITE);
         c.drawRect(0, 0, 50, 50, p);
-        c.drawRect(mWidth-50, 0, mWidth, 50, p);
-        c.drawRect(0, mHeight-50, 50, mHeight, p);
-        c.drawRect(mWidth-50, mHeight-50, mWidth, mHeight, p);
+        c.drawRect(mWidth - 50, 0, mWidth, 50, p);
+        c.drawRect(0, mHeight - 50, 50, mHeight, p);
+        c.drawRect(mWidth - 50, mHeight - 50, mWidth, mHeight, p);
 
         mPlain = new BitmapDrawable(context.getResources(), bitmap);
         mPlain.setBounds(0, 0, mPlain.getIntrinsicWidth(), mPlain.getIntrinsicHeight());
     }
 
-    GameMapView(Context context, AttributeSet attrs)
-    {
+    GameMapView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    GameMapView(Context context)
-    {
+    GameMapView(Context context) {
         this(context, null, 0);
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent ev)
-    {
-        if (mScreenWidth == 0 || mScreenHeight == 0)
-        {
+    public boolean onTouchEvent(MotionEvent ev) {
+        if (mScreenWidth == 0 || mScreenHeight == 0) {
             mScreenWidth = getWidth();
             mScreenHeight = getHeight();
         }
 
-        switch (ev.getAction() & MotionEvent.ACTION_MASK)
-        {
+        switch (ev.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
                 mPreviousX = ev.getX();
                 mPreviousY = ev.getY();
@@ -97,46 +84,35 @@ public class GameMapView extends View
                 float relshiftY = y - mPreviousY;
 
                 //Screed border: X
-                if (mWidth > mScreenWidth)
-                {
-                    if (mShiftX + relshiftX > 0)
-                    {
+                if (mWidth > mScreenWidth) {
+                    if (mShiftX + relshiftX > 0) {
                         mShiftX = 0;
                         mPreviousX = 0;
-                    }
-                    else if (mShiftX + relshiftX < -(mWidth-mScreenWidth))
-                    {
-                        mShiftX = -(mWidth-mScreenWidth);
+                    } else if (mShiftX + relshiftX < -(mWidth - mScreenWidth)) {
+                        mShiftX = -(mWidth - mScreenWidth);
                         mPreviousX = x;
-                    }
-                    else
-                    {
+                    } else {
                         mShiftX += relshiftX;
                         mPreviousX = x;
                     }
                 }
 
                 //Screed border: Y
-                if (mHeight > mScreenHeight)
-                }
-                    if (mShiftY + relshiftY > 0)
-                    {
+                if (mHeight > mScreenHeight) {
+                    if (mShiftY + relshiftY > 0) {
                         mShiftY = 0;
                         mPreviousY = 0;
-                    }
-                    else if (mShiftY + relshiftY < -(mHeight-mScreenHeight))
-                    {
-                        mShiftY = -(mHeight-mScreenHeight);
+                    } else if (mShiftY + relshiftY < -(mHeight - mScreenHeight)) {
+                        mShiftY = -(mHeight - mScreenHeight);
                         mPreviousY = y;
-                    }
-                    else
-                    {
+                    } else {
                         mShiftY += relshiftY;
                         mPreviousY = y;
                     }
                 }
 
                 invalidate();
+
                 break;
 
             case MotionEvent.ACTION_UP:
@@ -147,7 +123,9 @@ public class GameMapView extends View
                 mCurPointerId = INVALID_POINTER_ID;
                 break;
 
-            case MotionEvent.ACTION_POINTER_UP: {
+            case MotionEvent.ACTION_POINTER_UP:
+
+            {
                 final int pointerIndex = (ev.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK)
                         >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
                 final int pointerId = ev.getPointerId(pointerIndex);
@@ -165,8 +143,7 @@ public class GameMapView extends View
     }
 
     @Override
-    public void onDraw(Canvas canvas)
-    {
+    public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
         canvas.save();

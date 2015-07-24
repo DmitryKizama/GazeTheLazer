@@ -1,8 +1,10 @@
 package com.gazethelazer.fotongames.gazethelazer.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -22,7 +24,7 @@ import com.gazethelazer.fotongames.gazethelazer.R;
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerOfSettings;
 import com.gazethelazer.fotongames.gazethelazer.static_and_final_variables.Final;
 
-public class MainPage extends AppCompatActivity {
+public class MainPage extends Activity {
 
     private ControllerOfSettings controllerrSettings = new ControllerOfSettings();
     private TextView imageSettings, imageAboutAutors, tvSounds, tvMusic;
@@ -109,6 +111,14 @@ public class MainPage extends AppCompatActivity {
                 BootstrapButton btnAsshole = (BootstrapButton) popupView.findViewById(R.id.btnGiveMoney);
                 BootstrapButton btnGiveMoney = (BootstrapButton) popupView.findViewById(R.id.btnGiveMoney);
                 popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+            }
+        });
+
+        btnSingle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentSingle = new Intent(MainPage.this, GameActivity.class);
+                startActivity(intentSingle);
             }
         });
     }
