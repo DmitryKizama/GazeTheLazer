@@ -1,4 +1,4 @@
 package com.gazethelazer.fotongames.gazethelazer.api;
 
-public class CoordinatesAPI {
+public class MatrixAPI {
 }

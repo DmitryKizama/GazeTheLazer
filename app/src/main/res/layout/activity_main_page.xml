@@ -5,18 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".MainPage">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="bottom"
-        android:text="Gaze the Lazer"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/bbutton_danger_pressed_edge" />
-
-
     <com.beardedhen.androidbootstrap.FontAwesomeText
         android:id="@+id/settingsImage"
         android:layout_width="wrap_content"

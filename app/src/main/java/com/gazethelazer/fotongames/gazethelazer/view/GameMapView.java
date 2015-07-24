@@ -1,4 +1,4 @@
-package com.gazethelazer.fotongames.gazethelazer.activity;
+package com.gazethelazer.fotongames.gazethelazer.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -29,7 +29,7 @@ public class GameMapView extends View {
     int mScreenWidth;
     int mScreenHeight;
 
-    GameMapView(Context context, AttributeSet attrs, int defStyle) {
+    public GameMapView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         mWidth = 2000;
@@ -52,11 +52,11 @@ public class GameMapView extends View {
         mPlain.setBounds(0, 0, mPlain.getIntrinsicWidth(), mPlain.getIntrinsicHeight());
     }
 
-    GameMapView(Context context, AttributeSet attrs) {
+    public GameMapView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    GameMapView(Context context) {
+    public GameMapView(Context context) {
         this(context, null, 0);
     }
 
