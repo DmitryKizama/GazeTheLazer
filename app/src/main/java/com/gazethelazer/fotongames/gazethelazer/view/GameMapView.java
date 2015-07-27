@@ -5,9 +5,13 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -21,10 +25,10 @@ public class GameMapView extends View {
     float mShiftX;
     float mShiftY;
 
-    Drawable mPlain;
+    Bitmap mBitmap;
 
-    int mWidth;
-    int mHeight;
+    int mWidth = 2000;
+    int mHeight = 3000;
 
     int mScreenWidth;
     int mScreenHeight;
@@ -32,9 +36,7 @@ public class GameMapView extends View {
     public GameMapView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        mWidth = 2000;
-        mHeight = 3000;
-        Bitmap bitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.RGB_565);
 
         Canvas c = new Canvas(bitmap);
         Paint p = new Paint();
@@ -48,8 +50,7 @@ public class GameMapView extends View {
         c.drawRect(0, mHeight - 50, 50, mHeight, p);
         c.drawRect(mWidth - 50, mHeight - 50, mWidth, mHeight, p);
 
-        mPlain = new BitmapDrawable(context.getResources(), bitmap);
-        mPlain.setBounds(0, 0, mPlain.getIntrinsicWidth(), mPlain.getIntrinsicHeight());
+        mBitmap = bitmap;
     }
 
     public GameMapView(Context context, AttributeSet attrs) {
@@ -61,12 +62,14 @@ public class GameMapView extends View {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        if (mScreenWidth == 0 || mScreenHeight == 0) {
-            mScreenWidth = getWidth();
-            mScreenHeight = getHeight();
-        }
+    public void onSizeChanged(int w, int h, int oldw, int oldh)
+    {
+        mScreenWidth = w;
+        mScreenHeight = h;
+    }
 
+    @Override
+    public boolean onTouchEvent(@NonNull MotionEvent ev) {
         switch (ev.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
                 mPreviousX = ev.getX();
@@ -149,7 +152,12 @@ public class GameMapView extends View {
         canvas.save();
 
         canvas.translate(mShiftX, mShiftY);
-        mPlain.draw(canvas);
+        Rect rect = new Rect(-(int)mShiftX, -(int)mShiftY, mScreenWidth + -(int)mShiftX, mScreenHeight + -(int)mShiftY);
+        Log.i("lazer", "bounds set: "+ rect.left  + " " + rect.top + " " + rect.right + " " + rect.bottom);
+
+        Bitmap crop = Bitmap.createBitmap(mBitmap, rect.left, rect.top, mScreenWidth, mScreenHeight);
+        canvas.drawBitmap(crop, rect.left, rect.top, null);
+        crop.recycle();
 
         canvas.restore();
     }
