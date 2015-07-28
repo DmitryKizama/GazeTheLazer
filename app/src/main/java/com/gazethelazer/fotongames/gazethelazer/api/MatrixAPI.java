@@ -33,17 +33,19 @@ public class MatrixAPI {
     }
 
     public Square[][] generateMatrix() {
-        MatrixAPI m = new MatrixAPI();
-        setRandomMaap();
+        MatrixAPI m = new MatrixAPI(); // FIXME: wtf?
+        setRandomMap();
 
         return matrix;
     }
 
     public Square[][] getMatrix() {
-        return new Square[100][100];
+        // FIXME: return matrix
+        // FIXME: don't make it less than 20
+        return new Square[20][20];
     }
 
-    private void setRandomMaap() {
+    private void setRandomMap() {
         Log.d("Matrix", "Enter in setRandomMap");
         int centerW = Math.round(widthsM / 2);
         int centerH = Math.round(heightsM / 2);

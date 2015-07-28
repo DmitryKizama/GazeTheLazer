@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
@@ -12,42 +11,30 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class GameMapView extends View {
-    static final int INVALID_POINTER_ID = -1;
+import com.gazethelazer.fotongames.gazethelazer.controller.ControllerDraw;
+import com.gazethelazer.fotongames.gazethelazer.static_and_final_variables.Final;
 
+public class GameMapView extends View {
     float mPreviousX;
     float mPreviousY;
-    int mCurPointerId = INVALID_POINTER_ID;
+    int mCurPointerId = Final.INVALID_POINTER_ID;
 
     float mShiftX;
     float mShiftY;
 
     Bitmap mBitmap;
 
+    // FIXME: change to pregenerated values
     int mWidth = 2000;
     int mHeight = 3000;
 
     int mScreenWidth;
     int mScreenHeight;
+    ControllerDraw mController;
 
     public GameMapView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
-        Bitmap bitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.RGB_565);
-
-        Canvas c = new Canvas(bitmap);
-        Paint p = new Paint();
-
-        p.setColor(Color.RED);
-        p.setStyle(Paint.Style.FILL);
-
-        c.drawColor(Color.WHITE);
-        c.drawRect(0, 0, 50, 50, p);
-        c.drawRect(mWidth - 50, 0, mWidth, 50, p);
-        c.drawRect(0, mHeight - 50, 50, mHeight, p);
-        c.drawRect(mWidth - 50, mHeight - 50, mWidth, mHeight, p);
-
-        mBitmap = bitmap;
+        Log.i("lazer", "constructor!");
     }
 
     public GameMapView(Context context, AttributeSet attrs) {
@@ -58,9 +45,27 @@ public class GameMapView extends View {
         this(context, null, 0);
     }
 
+    public void setController(ControllerDraw controllerDraw)
+    {
+        mController = controllerDraw;
+    }
+
+    public void generateBlankBitmap()
+    {
+        mHeight = mController.getHeight();
+        mWidth = mController.getWidth();
+
+        mBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.RGB_565);
+        Canvas canvas = new Canvas(mBitmap);
+        canvas.drawColor(Color.WHITE);
+    }
+
     @Override
     public void onSizeChanged(int w, int h, int oldw, int oldh)
     {
+        if (mBitmap == null)
+            generateBlankBitmap();
+
         mScreenWidth = w;
         mScreenHeight = h;
     }
@@ -116,11 +121,11 @@ public class GameMapView extends View {
                 break;
 
             case MotionEvent.ACTION_UP:
-                mCurPointerId = INVALID_POINTER_ID;
+                mCurPointerId = Final.INVALID_POINTER_ID;
                 break;
 
             case MotionEvent.ACTION_CANCEL:
-                mCurPointerId = INVALID_POINTER_ID;
+                mCurPointerId = Final.INVALID_POINTER_ID;
                 break;
 
             case MotionEvent.ACTION_POINTER_UP:
@@ -152,6 +157,11 @@ public class GameMapView extends View {
         Rect rect = new Rect(-(int)mShiftX, -(int)mShiftY, mScreenWidth + -(int)mShiftX, mScreenHeight + -(int)mShiftY);
         Log.i("lazer", "bounds set: "+ rect.left  + " " + rect.top + " " + rect.right + " " + rect.bottom);
 
+        // FIXME: implement drawing from rendered matrix
+        //int[][][][] rendered = mController.getRenderedArray();
+        //for (...)
+        //...
+        // FIXME: only crop when game field is bigger than screen
         Bitmap crop = Bitmap.createBitmap(mBitmap, rect.left, rect.top, mScreenWidth, mScreenHeight);
         canvas.drawBitmap(crop, rect.left, rect.top, null);
         crop.recycle();
