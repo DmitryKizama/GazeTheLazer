@@ -14,18 +14,9 @@ public class MatrixAPI {
     private Random random = new Random();
 
     public MatrixAPI(int widths, int heights) {
-        matrix = new Square[widths][];
+        matrix = new Square[heights][widths];
         this.heightsM = heights;
         this.widthsM = widths;
-        for (int i = 0; i < widths; i++) {
-            matrix[i] = new Square[heights];
-        }
-
-        for (int i = 0; i < widths; i++) {
-            for (int j = 0; j < heights; j++) {
-                matrix[i][j] = null;
-            }
-        }
     }
 
     public MatrixAPI() {
@@ -33,16 +24,14 @@ public class MatrixAPI {
     }
 
     public Square[][] generateMatrix() {
-        MatrixAPI m = new MatrixAPI(); // FIXME: wtf?
         setRandomMap();
-
         return matrix;
     }
 
     public Square[][] getMatrix() {
         // FIXME: return matrix
         // FIXME: don't make it less than 20
-        return new Square[20][20];
+        return new Square[50][50];
     }
 
     private void setRandomMap() {
