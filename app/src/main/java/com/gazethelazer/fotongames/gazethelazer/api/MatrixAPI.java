@@ -32,6 +32,12 @@ public class MatrixAPI {
         return matrix;
     }
 
+    public Square[][] getMatrix()
+    {
+        // FIXME: заглушка
+        return new Square[100][100];
+    }
+
     private void setRandomMaap() {
         for (int i = 1; i < widthsM; i++) {
             for (int j = 1; j < heightsM; j++) {
