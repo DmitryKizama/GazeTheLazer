@@ -24,7 +24,6 @@ public class GameMapView extends View {
 
     Bitmap mBitmap;
 
-    // FIXME: change to pregenerated values
     int mWidth;
     int mHeight;
 
@@ -88,7 +87,7 @@ public class GameMapView extends View {
                 float relshiftX = x - mPreviousX;
                 float relshiftY = y - mPreviousY;
 
-                //Screed border: X
+                //Screen border: X
                 if (mWidth > mScreenWidth) {
                     if (mShiftX + relshiftX > 0) {
                         mShiftX = 0;
@@ -102,7 +101,7 @@ public class GameMapView extends View {
                     }
                 }
 
-                //Screed border: Y
+                //Screen border: Y
                 if (mHeight > mScreenHeight) {
                     if (mShiftY + relshiftY > 0) {
                         mShiftY = 0;
