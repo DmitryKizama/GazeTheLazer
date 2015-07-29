@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
@@ -31,9 +32,12 @@ public class GameMapView extends View {
     int mScreenHeight;
     ControllerDraw mController;
 
+    Paint mDummyPaint = new Paint();
+
     public GameMapView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         Log.i("lazer", "constructor!");
+        mDummyPaint.setStyle(Paint.Style.FILL);
     }
 
     public GameMapView(Context context, AttributeSet attrs) {
@@ -87,6 +91,8 @@ public class GameMapView extends View {
                 float relshiftX = x - mPreviousX;
                 float relshiftY = y - mPreviousY;
 
+                boolean invalidate = false;
+
                 //Screen border: X
                 if (mWidth > mScreenWidth) {
                     if (mShiftX + relshiftX > 0) {
@@ -99,6 +105,7 @@ public class GameMapView extends View {
                         mShiftX += relshiftX;
                         mPreviousX = x;
                     }
+                    invalidate = true;
                 }
 
                 //Screen border: Y
@@ -113,9 +120,10 @@ public class GameMapView extends View {
                         mShiftY += relshiftY;
                         mPreviousY = y;
                     }
+                    invalidate = true;
                 }
 
-                invalidate();
+                if (invalidate) invalidate();
 
                 break;
 
@@ -153,16 +161,42 @@ public class GameMapView extends View {
         canvas.save();
 
         canvas.translate(mShiftX, mShiftY);
+        // TODO: clean this up
         Rect rect = new Rect(-(int)mShiftX, -(int)mShiftY, mScreenWidth + -(int)mShiftX, mScreenHeight + -(int)mShiftY);
-        Log.i("lazer", "bounds set: "+ rect.left  + " " + rect.top + " " + rect.right + " " + rect.bottom);
+        //Log.i("lazer", "bounds set: "+ rect.left  + " " + rect.top + " " + rect.right + " " + rect.bottom);
 
-        // FIXME: implement drawing from rendered matrix
-        //int[][][][] rendered = mController.getRenderedArray();
-        //for (...)
-        //...
+        int[][][][] rendered = mController.getRenderedArray();
+
+        int width_sq = mController.getmWidthInSquares();
+        int height_sq = mController.getHeightInSquares();
+
+        Canvas local = new Canvas(mBitmap);
+
+        for (int i = 0; i < height_sq; i++)
+        {
+            for (int j = 0; j < width_sq; j++)
+            {
+                for (int k = 0; k < 2; k++)
+                {
+                    int startx = rendered[i][j][k][0];
+                    int starty = rendered[i][j][k][1];
+                    int endx = rendered[i][j][k][2];
+                    int endy = rendered[i][j][k][3];
+                    int color = rendered[i][j][k][4];
+
+                    mDummyPaint.setColor(color);
+
+                    //Log.i("lazer", startx + " " + starty + " " + endx + " " + endy + " " + color);
+
+                    local.drawLine(startx, starty, endx, endy, mDummyPaint);
+                }
+            }
+        }
+
         int bitmap_width = mWidth > mScreenWidth ? mScreenWidth : mWidth;
         int bitmap_height = mHeight > mScreenHeight ? mScreenHeight : mHeight;
 
+        // FIXME: crop ONLY when screen is smaller than bitmap
         Bitmap crop = Bitmap.createBitmap(mBitmap, rect.left, rect.top, bitmap_width, bitmap_height);
         canvas.drawBitmap(crop, rect.left, rect.top, null);
         crop.recycle();
