@@ -10,9 +10,18 @@ public class ControllerDraw {
     // FIXME: это пиздец
     int[][][][] mRenderedArray;
 
-    int mSquareSize = 50;
+    int mSquareSize;
     int mWidthInSquares;
     int mHeightInSquares;
+
+    public ControllerDraw(int square_size)
+    {
+        mSquareSize = square_size;
+    }
+
+    public ControllerDraw()
+    {
+    }
 
     public void render(MatrixAPI matrix)
     {

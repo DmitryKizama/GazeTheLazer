@@ -25,8 +25,8 @@ public class GameMapView extends View {
     Bitmap mBitmap;
 
     // FIXME: change to pregenerated values
-    int mWidth = 2000;
-    int mHeight = 3000;
+    int mWidth;
+    int mHeight;
 
     int mScreenWidth;
     int mScreenHeight;
@@ -161,8 +161,10 @@ public class GameMapView extends View {
         //int[][][][] rendered = mController.getRenderedArray();
         //for (...)
         //...
-        // FIXME: only crop when game field is bigger than screen
-        Bitmap crop = Bitmap.createBitmap(mBitmap, rect.left, rect.top, mScreenWidth, mScreenHeight);
+        int bitmap_width = mWidth > mScreenWidth ? mScreenWidth : mWidth;
+        int bitmap_height = mHeight > mScreenHeight ? mScreenHeight : mHeight;
+
+        Bitmap crop = Bitmap.createBitmap(mBitmap, rect.left, rect.top, bitmap_width, bitmap_height);
         canvas.drawBitmap(crop, rect.left, rect.top, null);
         crop.recycle();
 

@@ -15,10 +15,9 @@ public class GameActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         ControllerDraw example_controller = new ControllerDraw();
-        MatrixAPI example_matrix = new MatrixAPI();
+        MatrixAPI example_matrix = new MatrixAPI(10, 10);
 
-        //example_matrix.setSize(20, 20); //FIXME: Implement this or different constructor in matrix
-        example_controller.setSquareSize(50); //FIXME: don't make it less than 50
+        example_controller.setSquareSize(50); //FIXME: magic number
 
         example_controller.render(example_matrix);
 
