@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -19,24 +18,21 @@ public class GameMapView extends View {
     float mPreviousX;
     float mPreviousY;
     int mCurPointerId = Final.INVALID_POINTER_ID;
-
     float mShiftX;
     float mShiftY;
-
     Bitmap mBitmap;
-
     int mWidth;
     int mHeight;
 
     int mScreenWidth;
     int mScreenHeight;
-    ControllerDraw mController;
+
+    ControllerDraw mControllerDraw;
 
     Paint mDummyPaint = new Paint();
 
     public GameMapView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        Log.i("lazer", "constructor!");
         mDummyPaint.setStyle(Paint.Style.FILL);
     }
 
@@ -48,15 +44,15 @@ public class GameMapView extends View {
         this(context, null, 0);
     }
 
-    public void setController(ControllerDraw controllerDraw)
+    public void setControllerDraw(ControllerDraw controllerDraw)
     {
-        mController = controllerDraw;
+        mControllerDraw = controllerDraw;
     }
 
     public void generateBlankBitmap()
     {
-        mHeight = mController.getHeight();
-        mWidth = mController.getWidth();
+        mHeight = mControllerDraw.getHeight();
+        mWidth = mControllerDraw.getWidth();
 
         mBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.RGB_565);
         Canvas canvas = new Canvas(mBitmap);
@@ -80,6 +76,9 @@ public class GameMapView extends View {
                 mPreviousX = ev.getX();
                 mPreviousY = ev.getY();
                 mCurPointerId = ev.getPointerId(0);
+
+                Log.i("lazer", "" + mControllerDraw.getSquareCoordsX(ev.getX() + -mShiftX));
+                Log.i("lazer", "" + mControllerDraw.getSquareCoordsY(ev.getY() + -mShiftY));
 
                 break;
 
@@ -161,14 +160,13 @@ public class GameMapView extends View {
         canvas.save();
 
         canvas.translate(mShiftX, mShiftY);
-        // TODO: clean this up
-        Rect rect = new Rect(-(int)mShiftX, -(int)mShiftY, mScreenWidth + -(int)mShiftX, mScreenHeight + -(int)mShiftY);
+
         //Log.i("lazer", "bounds set: "+ rect.left  + " " + rect.top + " " + rect.right + " " + rect.bottom);
 
-        int[][][][] rendered = mController.getRenderedArray();
+        int[][][][] rendered = mControllerDraw.getRenderedArray();
 
-        int width_sq = mController.getmWidthInSquares();
-        int height_sq = mController.getHeightInSquares();
+        int width_sq = mControllerDraw.getmWidthInSquares();
+        int height_sq = mControllerDraw.getHeightInSquares();
 
         Canvas local = new Canvas(mBitmap);
 
@@ -193,18 +191,21 @@ public class GameMapView extends View {
             }
         }
 
+        int left = -(int)mShiftX;
+        int top = -(int)mShiftY;
+
         if (mWidth > mScreenWidth || mHeight > mScreenHeight)
         {
             int bitmap_width = mWidth > mScreenWidth ? mScreenWidth : mWidth;
             int bitmap_height = mHeight > mScreenHeight ? mScreenHeight : mHeight;
 
-            Bitmap crop = Bitmap.createBitmap(mBitmap, rect.left, rect.top, bitmap_width, bitmap_height);
-            canvas.drawBitmap(crop, rect.left, rect.top, null);
+            Bitmap crop = Bitmap.createBitmap(mBitmap, left, top, bitmap_width, bitmap_height);
+            canvas.drawBitmap(crop, left, top, null);
             crop.recycle();
         }
         else
         {
-            canvas.drawBitmap(mBitmap, rect.left, rect.top, null);
+            canvas.drawBitmap(mBitmap, left, top, null);
         }
 
         canvas.restore();

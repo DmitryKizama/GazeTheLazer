@@ -113,17 +113,29 @@ public class ControllerDraw {
                     // fuck my life
                 }
 
-                int[] line_right = {j*mSquareSize, i*mSquareSize,
-                        j*mSquareSize + mSquareSize, i*mSquareSize, color_right};
+                int square_size = getSquareSize();
 
-                int[] line_down = {j*mSquareSize, i*mSquareSize,
-                        j*mSquareSize, i*mSquareSize + mSquareSize, color_down};
+                int[] line_right = {j*square_size, i*square_size,
+                        j*square_size + square_size, i*square_size, color_right};
+
+                int[] line_down = {j*square_size, i*square_size,
+                        j*square_size, i*square_size + square_size, color_down};
 
                 mRenderedArray[i][j][0] = line_right;
                 mRenderedArray[i][j][1] = line_down;
             }
         }
 
+    }
+
+    public int getSquareCoordsX(float x)
+    {
+        return Math.round(x/getSquareSize());
+    }
+
+    public int getSquareCoordsY(float y)
+    {
+        return Math.round(y/getSquareSize());
     }
 
     public int[][][][] getRenderedArray()
@@ -143,12 +155,12 @@ public class ControllerDraw {
 
     public int getWidth()
     {
-        return mWidthInSquares*mSquareSize;
+        return mWidthInSquares*getSquareSize();
     }
 
     public int getHeight()
     {
-        return mHeightInSquares*mSquareSize;
+        return mHeightInSquares*getSquareSize();
     }
 
     public int getmWidthInSquares()
