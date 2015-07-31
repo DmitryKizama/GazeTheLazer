@@ -193,13 +193,19 @@ public class GameMapView extends View {
             }
         }
 
-        int bitmap_width = mWidth > mScreenWidth ? mScreenWidth : mWidth;
-        int bitmap_height = mHeight > mScreenHeight ? mScreenHeight : mHeight;
+        if (mWidth > mScreenWidth || mHeight > mScreenHeight)
+        {
+            int bitmap_width = mWidth > mScreenWidth ? mScreenWidth : mWidth;
+            int bitmap_height = mHeight > mScreenHeight ? mScreenHeight : mHeight;
 
-        // FIXME: crop ONLY when screen is smaller than bitmap
-        Bitmap crop = Bitmap.createBitmap(mBitmap, rect.left, rect.top, bitmap_width, bitmap_height);
-        canvas.drawBitmap(crop, rect.left, rect.top, null);
-        crop.recycle();
+            Bitmap crop = Bitmap.createBitmap(mBitmap, rect.left, rect.top, bitmap_width, bitmap_height);
+            canvas.drawBitmap(crop, rect.left, rect.top, null);
+            crop.recycle();
+        }
+        else
+        {
+            canvas.drawBitmap(mBitmap, rect.left, rect.top, null);
+        }
 
         canvas.restore();
     }
