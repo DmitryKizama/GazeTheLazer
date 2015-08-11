@@ -17,11 +17,7 @@ public class MatrixAPI {
         matrix = new Square[heights][widths];
         this.heightsM = heights;
         this.widthsM = widths;
-    }
-
-    public Square[][] generateMatrix() {
         setRandomMap();
-        return matrix;
     }
 
     public Square[][] getMatrix() {
