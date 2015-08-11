@@ -15,14 +15,14 @@ public class GameActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         ControllerDraw example_controller = new ControllerDraw();
-        MatrixAPI example_matrix = new MatrixAPI(20, 20);
+        MatrixAPI example_matrix = new MatrixAPI(15, 15);
 
-        example_controller.setSquareSize(50); //FIXME: magic number
+        example_controller.setSquareSize(80); //FIXME: magic number
 
         example_controller.render(example_matrix);
 
         GameMapView gameMapView = new GameMapView(this);
-        gameMapView.setController(example_controller);
+        gameMapView.setControllerDraw(example_controller);
 
         setContentView(gameMapView);
     }

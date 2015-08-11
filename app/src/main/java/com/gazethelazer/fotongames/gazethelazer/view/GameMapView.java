@@ -183,6 +183,7 @@ public class GameMapView extends View {
                     int color = rendered[i][j][k][4];
 
                     mDummyPaint.setColor(color);
+                    mDummyPaint.setStrokeWidth(10);
 
                     //Log.i("lazer", startx + " " + starty + " " + endx + " " + endy + " " + color);
 
