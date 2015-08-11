@@ -58,11 +58,11 @@ public class ControllerDraw {
                     } else if (field[i - 1][j] == null) {
                         color_right = Color.BLACK;
                     } else {
-//                        if (field[i][j].right_side) {
-//                            color_right = Color.RED;
-//                        } else {
+                        if (field[i][j].right_side) {
+                            color_right = Color.RED;
+                        } else {
                         color_right = Color.GRAY;
-//                    }
+                    }
                     }
 
                     // please kill me
@@ -71,11 +71,11 @@ public class ControllerDraw {
                     } else if (field[i][j - 1] == null) {
                         color_down = Color.BLACK;
                     } else {
-//                        if (field[i][j].bottom_side) {
-//                            color_down = Color.RED;
-//                        } else {
+                        if (field[i][j].bottom_side) {
+                            color_down = Color.RED;
+                        } else {
                         color_down = Color.GRAY;
-//                        }
+                        }
                     }
                     // fuck my life
                 }

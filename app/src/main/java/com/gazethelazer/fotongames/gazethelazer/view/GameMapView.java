@@ -11,9 +11,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.gazethelazer.fotongames.gazethelazer.activity.GameActivity;
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerDraw;
 import com.gazethelazer.fotongames.gazethelazer.static_and_final_variables.Final;
+
+import java.util.Calendar;
 
 public class GameMapView extends View {
     float mPreviousX;
@@ -21,6 +22,7 @@ public class GameMapView extends View {
     int mCurPointerId = Final.INVALID_POINTER_ID;
     float mShiftX;
     float mShiftY;
+
     Bitmap mBitmap;
     int mWidth;
     int mHeight;
@@ -28,8 +30,11 @@ public class GameMapView extends View {
     int mScreenWidth;
     int mScreenHeight;
 
+    long mLongClickDuration = 500; // ms
+    long lastClick;
+    boolean traceLongClick = false;
+
     ControllerDraw mControllerDraw;
-    GameActivity g = new GameActivity();
 
     Paint mDummyPaint = new Paint();
 
@@ -79,6 +84,12 @@ public class GameMapView extends View {
                 Log.i("lazer", "" + mControllerDraw.getSquareCoordsX(ev.getX() + -mShiftX));
                 Log.i("lazer", "" + mControllerDraw.getSquareCoordsY(ev.getY() + -mShiftY));
 
+                if (traceLongClick == false)
+                {
+                    traceLongClick = true;
+                    lastClick = Calendar.getInstance().getTimeInMillis();
+                }
+
                 break;
 
             case MotionEvent.ACTION_MOVE:
@@ -123,10 +134,22 @@ public class GameMapView extends View {
 
                 if (invalidate) invalidate();
 
+                traceLongClick = false;
+
                 break;
 
             case MotionEvent.ACTION_UP:
                 mCurPointerId = Final.INVALID_POINTER_ID;
+
+                if (traceLongClick)
+                {
+                    if (Calendar.getInstance().getTimeInMillis() - lastClick >= mLongClickDuration)
+                    {
+                        traceLongClick = false;
+                        Log.i("lazer", "LONG CLICK, Motherfucker");
+                    }
+                }
+
                 break;
 
             case MotionEvent.ACTION_CANCEL:
@@ -149,7 +172,6 @@ public class GameMapView extends View {
             }
         }
 
-        g.onTouchEvent(ev);
         return true;
     }
 
