@@ -3,6 +3,7 @@ package com.gazethelazer.fotongames.gazethelazer.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 
 import com.gazethelazer.fotongames.gazethelazer.api.MatrixAPI;
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerDraw;
@@ -26,4 +27,10 @@ public class GameActivity extends Activity {
 
         setContentView(gameMapView);
     }
+
+    public boolean onTouchEvent(MotionEvent event) {
+        Log.d("Matrix", "onTouchEvent");
+        return true;
+    }
+
 }

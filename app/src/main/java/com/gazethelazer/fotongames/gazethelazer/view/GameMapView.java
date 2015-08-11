@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.gazethelazer.fotongames.gazethelazer.activity.GameActivity;
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerDraw;
 import com.gazethelazer.fotongames.gazethelazer.static_and_final_variables.Final;
 
@@ -28,6 +29,7 @@ public class GameMapView extends View {
     int mScreenHeight;
 
     ControllerDraw mControllerDraw;
+    GameActivity g = new GameActivity();
 
     Paint mDummyPaint = new Paint();
 
@@ -44,13 +46,11 @@ public class GameMapView extends View {
         this(context, null, 0);
     }
 
-    public void setControllerDraw(ControllerDraw controllerDraw)
-    {
+    public void setControllerDraw(ControllerDraw controllerDraw) {
         mControllerDraw = controllerDraw;
     }
 
-    public void generateBlankBitmap()
-    {
+    public void generateBlankBitmap() {
         mHeight = mControllerDraw.getHeight();
         mWidth = mControllerDraw.getWidth();
 
@@ -60,8 +60,7 @@ public class GameMapView extends View {
     }
 
     @Override
-    public void onSizeChanged(int w, int h, int oldw, int oldh)
-    {
+    public void onSizeChanged(int w, int h, int oldw, int oldh) {
         if (mBitmap == null)
             generateBlankBitmap();
 
@@ -150,6 +149,7 @@ public class GameMapView extends View {
             }
         }
 
+        g.onTouchEvent(ev);
         return true;
     }
 
@@ -161,7 +161,7 @@ public class GameMapView extends View {
 
         canvas.translate(mShiftX, mShiftY);
 
-        //Log.i("lazer", "bounds set: "+ rect.left  + " " + rect.top + " " + rect.right + " " + rect.bottom);
+//        Log.i("lazer", "bounds set: "+ rect.left  + " " + rect.top + " " + rect.right + " " + rect.bottom);
 
         int[][][][] rendered = mControllerDraw.getRenderedArray();
 
@@ -170,12 +170,9 @@ public class GameMapView extends View {
 
         Canvas local = new Canvas(mBitmap);
 
-        for (int i = 0; i < height_sq; i++)
-        {
-            for (int j = 0; j < width_sq; j++)
-            {
-                for (int k = 0; k < 2; k++)
-                {
+        for (int i = 0; i < height_sq; i++) {
+            for (int j = 0; j < width_sq; j++) {
+                for (int k = 0; k < 2; k++) {
                     int startx = rendered[i][j][k][0];
                     int starty = rendered[i][j][k][1];
                     int endx = rendered[i][j][k][2];
@@ -185,27 +182,24 @@ public class GameMapView extends View {
                     mDummyPaint.setColor(color);
                     mDummyPaint.setStrokeWidth(10);
 
-                    //Log.i("lazer", startx + " " + starty + " " + endx + " " + endy + " " + color);
+//                    Log.i("lazer", startx + " " + starty + " " + endx + " " + endy + " " + color);
 
                     local.drawLine(startx, starty, endx, endy, mDummyPaint);
                 }
             }
         }
 
-        int left = -(int)mShiftX;
-        int top = -(int)mShiftY;
+        int left = -(int) mShiftX;
+        int top = -(int) mShiftY;
 
-        if (mWidth > mScreenWidth || mHeight > mScreenHeight)
-        {
+        if (mWidth > mScreenWidth || mHeight > mScreenHeight) {
             int bitmap_width = mWidth > mScreenWidth ? mScreenWidth : mWidth;
             int bitmap_height = mHeight > mScreenHeight ? mScreenHeight : mHeight;
 
             Bitmap crop = Bitmap.createBitmap(mBitmap, left, top, bitmap_width, bitmap_height);
             canvas.drawBitmap(crop, left, top, null);
             crop.recycle();
-        }
-        else
-        {
+        } else {
             canvas.drawBitmap(mBitmap, left, top, null);
         }
 
