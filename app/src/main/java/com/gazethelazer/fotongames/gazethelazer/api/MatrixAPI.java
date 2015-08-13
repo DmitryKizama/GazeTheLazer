@@ -13,7 +13,7 @@ public class MatrixAPI {
     private int heightsM;
     private Random random = new Random();
 
-    public MatrixAPI(int widths, int heights) {
+    public MatrixAPI(int heights, int widths) {
         matrix = new Square[heights][widths];
         this.heightsM = heights;
         this.widthsM = widths;
@@ -30,14 +30,14 @@ public class MatrixAPI {
         int centerH = Math.round(heightsM / 2);
         int numberOfRepeat = 1;
         Square square = new Square();
-        matrix[centerW][centerH] = square;
+        matrix[centerH][centerW] = square;
         for (int i = 0; i < Final.MIN_SIZE_PLAYGROUND; i++) {
             for (int j = 0; j < Final.MIN_SIZE_PLAYGROUND; j++) {
-                matrix[centerW - i][centerH - j] = square;
-                matrix[centerW - i][centerH + j] = square;
-                matrix[centerW - j][centerH - i] = square;
-                matrix[centerW + j][centerH - i] = square;
-                matrix[centerW + j][centerH + i] = square;
+                matrix[centerH - i][centerW - j] = square;
+                matrix[centerH - i][centerW + j] = square;
+                matrix[centerH - j][centerW - i] = square;
+                matrix[centerH + j][centerW - i] = square;
+                matrix[centerH + j][centerW + i] = square;
             }
         }
 
@@ -52,8 +52,8 @@ public class MatrixAPI {
 
         for (int k = 0; k < numberOfRepeat; k++) {
 
-            for (int i = 1; i < widthsM - 1; i++) {
-                for (int j = 1; j < heightsM - 1; j++) {
+            for (int i = 1; i < heightsM - 1; i++) {
+                for (int j = 1; j < widthsM - 1; j++) {
                     if (random.nextBoolean()) {
                         if (matrix[i][j - 1] != null)
                             matrix[i][j] = square;
@@ -66,8 +66,8 @@ public class MatrixAPI {
                     }
                 }
             }
-            for (int i = widthsM - 2; i > 1; i--) {
-                for (int j = heightsM - 2; j > 1; j--) {
+            for (int i = heightsM - 2; i > 1; i--) {
+                for (int j = widthsM - 2; j > 1; j--) {
                     if (random.nextBoolean()) {
                         if (matrix[i][j - 1] != null)
                             matrix[i][j] = square;

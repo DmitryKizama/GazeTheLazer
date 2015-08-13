@@ -8,6 +8,9 @@ public class Final {
     public static final int VISIBILITYGONE = 0;
     public static final int VISIBILITYVISIBLE = 1;
     public static final int MIN_SIZE_PLAYGROUND = 5;
+    public static final int SIZE_OF_SQUARE = 100;
+    public static final int NUMBER_OF_SQUARE_HEIGHTS = 25;
+    public static final int NUMBER_OF_SQUARE_WEIGHTS = 15;
 
     public static final int INVALID_POINTER_ID = -1;
 }

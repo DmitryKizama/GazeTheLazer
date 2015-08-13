@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.gazethelazer.fotongames.gazethelazer.api.MatrixAPI;
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerDraw;
+import com.gazethelazer.fotongames.gazethelazer.static_and_final_variables.Final;
 import com.gazethelazer.fotongames.gazethelazer.view.GameMapView;
 
 public class GameActivity extends Activity {
@@ -14,9 +15,9 @@ public class GameActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         ControllerDraw example_controller = new ControllerDraw();
-        MatrixAPI example_matrix = new MatrixAPI(15, 15);
+        MatrixAPI example_matrix = new MatrixAPI(Final.NUMBER_OF_SQUARE_HEIGHTS, Final.NUMBER_OF_SQUARE_WEIGHTS);
 
-        example_controller.setSquareSize(80); //FIXME: magic number
+        example_controller.setSquareSize(Final.SIZE_OF_SQUARE);
 
         example_controller.render(example_matrix);
 
