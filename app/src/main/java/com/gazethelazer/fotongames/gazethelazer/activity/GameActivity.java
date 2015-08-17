@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.gazethelazer.fotongames.gazethelazer.api.MatrixAPI;
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerDraw;
+import com.gazethelazer.fotongames.gazethelazer.controller.ControllerGame;
 import com.gazethelazer.fotongames.gazethelazer.static_and_final_variables.Final;
 import com.gazethelazer.fotongames.gazethelazer.view.GameMapView;
 

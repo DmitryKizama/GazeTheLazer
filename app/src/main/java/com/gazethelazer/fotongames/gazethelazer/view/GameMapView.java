@@ -10,10 +10,10 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerDraw;
+import com.gazethelazer.fotongames.gazethelazer.controller.ControllerGame;
 import com.gazethelazer.fotongames.gazethelazer.static_and_final_variables.Final;
 
 import java.util.Calendar;
@@ -37,7 +37,7 @@ public class GameMapView extends View {
     boolean traceLongClick = false;
 
     ControllerDraw mControllerDraw;
-    ControllerGame mControllerGame
+    ControllerGame mControllerGame;
 
     Paint mDummyPaint = new Paint();
 
@@ -58,9 +58,8 @@ public class GameMapView extends View {
         mControllerDraw = controllerDraw;
     }
 
-    public void setControllerGame(ControllerGame controllergame)
-    {
-        mControllerGame = controllerGame;
+    public void setControllerGame(ControllerGame controllergame) {
+        mControllerGame = controllergame;
     }
 
     public void generateBlankBitmap() {
@@ -72,8 +71,7 @@ public class GameMapView extends View {
         canvas.drawColor(Color.WHITE);
     }
 
-    public void createChooser(int sq_x, int sq_y, int[] moves)
-    {
+    public void createChooser(int sq_x, int sq_y, int[] moves) {
         BootstrapButton button = new BootstrapButton(getContext());
         button.setLeftIcon("fa-arrow-right");
     }
@@ -94,9 +92,6 @@ public class GameMapView extends View {
                 mPreviousX = ev.getX();
                 mPreviousY = ev.getY();
                 mCurPointerId = ev.getPointerId(0);
-
-                Log.i("lazer", "" + mControllerDraw.getSquareCoordsX(ev.getX() + -mShiftX));
-                Log.i("lazer", "" + mControllerDraw.getSquareCoordsY(ev.getY() + -mShiftY));
 
                 if (traceLongClick == false) {
                     traceLongClick = true;
@@ -163,16 +158,17 @@ public class GameMapView extends View {
 
                         int moves[] = mControllerGame.checkForAwailableEdges(sq_x, sq_y);
 
+                        Log.i("lazer", "long touch");
+                        Log.i("lazer", "" + moves[0] + " " + moves[1] + " " + moves[2] + " " + moves [3]);
+
                         int sum = 0;
                         for (int i = 0; i < 4; i++)
                             sum += moves[i];
 
-                        if (sum == 1)
-                        {
-                            mControllerGame.turn(sq_x, sq_y, mController.getEdgeSingularMove(moves));
-                        }
-                        else if (sum > 1)
-                        {
+                        if (sum == 1) {
+                            int[] axis = mControllerGame.getEdgeSingularMove(moves);
+                            mControllerGame.turn(sq_x, sq_y, axis[0], axis[1]);
+                        } else if (sum > 1) {
                             createChooser(sq_x, sq_y, moves);
                         }
                     }

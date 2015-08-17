@@ -3,18 +3,18 @@ package com.gazethelazer.fotongames.gazethelazer.controller;
 import com.gazethelazer.fotongames.gazethelazer.api.MatrixAPI;
 import com.gazethelazer.fotongames.gazethelazer.api.Square;
 
-public class GameComtroller {
+public class ControllerGame {
 
     private boolean onlyOneWay = false;
     private Square[][] field;
     int height;
     int widht;
 
-    public GameComtroller(MatrixAPI matrix) {
+    public ControllerGame(MatrixAPI matrix) {
         field = matrix.getMatrix();
     }
 
-    public int[] checkForAvailableAdges(int x, int y) {
+    public int[] checkForAwailableEdges(int x, int y) {
         int[] turn = new int[4];
         for (int i = 0; i < 4; i++) {
             turn[i] = 0;
@@ -58,23 +58,10 @@ public class GameComtroller {
     public void turn(int x, int y, int axisX, int asixY) {
         widht = field[0].length;
         height = field.length;
+    }
 
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < widht; j++) {
-
-                if (field[y][x] != null) {
-                    if (field[y - 1][x] != null)
-                        field[y][x].right_side = true;
-                    else
-                        field[i + 1][j].bottom_side = true;
-                }
-
-                if (field[i + 1][j] == null) {
-                    if (field[i + 1][j + 1] != null)
-                        field[i + 1][j + 1].bottom_side = true;
-                }
-            }
-        }
+    public int[] getEdgeSingularMove(int[] moves) {
+        return new int[]{1, 1};
     }
 
     private void choosenWay() {
