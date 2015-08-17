@@ -32,7 +32,7 @@ public class GameMapView extends View {
     int mScreenWidth;
     int mScreenHeight;
 
-    long mLongClickDuration = 500; // ms
+    long mLongClickDuration = Final.LONG_CLICK_DURATION; // ms
     long lastClick;
     boolean traceLongClick = false;
 
@@ -142,7 +142,9 @@ public class GameMapView extends View {
 
                 if (invalidate) invalidate();
 
-                traceLongClick = false;
+                if (Math.abs(relshiftX) > mControllerDraw.getSquareSize()/3
+                    && Math.abs(relshiftY) > mControllerDraw.getSquareSize()/3)
+                    traceLongClick = false;
 
                 break;
 

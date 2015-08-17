@@ -14,6 +14,7 @@ public class Final {
     public static final int NUMBER_OF_SQUARE_HEIGHTS = 25;
     public static final int NUMBER_OF_SQUARE_WEIGHTS = 15;
     public static final int COLOR_OF_EMPTY_SQUARE = Color.parseColor("#E8EAEB");
+    public static final int LONG_CLICK_DURATION = 750;
 
     public static final int INVALID_POINTER_ID = -1;
 }
