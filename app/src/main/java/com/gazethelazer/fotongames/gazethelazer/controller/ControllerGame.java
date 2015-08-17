@@ -59,7 +59,6 @@ public class ControllerGame {
     public void turn(int x, int y, int axisX, int asixY) {
         widht = field[0].length;
         height = field.length;
-
     }
 
     public int[] getEdgeSingularMove(int[] moves) {
