@@ -10,7 +10,9 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerDraw;
 import com.gazethelazer.fotongames.gazethelazer.static_and_final_variables.Final;
 
@@ -35,6 +37,7 @@ public class GameMapView extends View {
     boolean traceLongClick = false;
 
     ControllerDraw mControllerDraw;
+    ControllerGame mControllerGame
 
     Paint mDummyPaint = new Paint();
 
@@ -55,6 +58,11 @@ public class GameMapView extends View {
         mControllerDraw = controllerDraw;
     }
 
+    public void setControllerGame(ControllerGame controllergame)
+    {
+        mControllerGame = controllerGame;
+    }
+
     public void generateBlankBitmap() {
         mHeight = mControllerDraw.getHeight();
         mWidth = mControllerDraw.getWidth();
@@ -62,6 +70,12 @@ public class GameMapView extends View {
         mBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.RGB_565);
         Canvas canvas = new Canvas(mBitmap);
         canvas.drawColor(Color.WHITE);
+    }
+
+    public void createChooser(int sq_x, int sq_y, int[] moves)
+    {
+        BootstrapButton button = new BootstrapButton(getContext());
+        button.setLeftIcon("fa-arrow-right");
     }
 
     @Override
@@ -146,7 +160,24 @@ public class GameMapView extends View {
                     if (Calendar.getInstance().getTimeInMillis() - lastClick >= mLongClickDuration)
                     {
                         traceLongClick = false;
-                        Log.i("lazer", "LONG CLICK, Motherfucker");
+
+                        int sq_x = mControllerDraw.getSquareCoordsX(ev.getX() + -mShiftX);
+                        int sq_y = mControllerDraw.getSquareCoordsY(ev.getY() + -mShiftY);
+
+                        int moves[] = mControllerGame.checkForAwailableEdges(sq_x, sq_y);
+
+                        int sum = 0;
+                        for (int i = 0; i < 4; i++)
+                            sum += moves[i];
+
+                        if (sum == 1)
+                        {
+                            mControllerGame.turn(sq_x, sq_y, mController.getEdgeSingularMove(moves));
+                        }
+                        else if (sum > 1)
+                        {
+                            createChooser(sq_x, sq_y, moves);
+                        }
                     }
                 }
 

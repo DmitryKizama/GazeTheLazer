@@ -21,8 +21,11 @@ public class GameActivity extends Activity {
 
         example_controller.render(example_matrix);
 
+        ControllerGame game = new ControllerGame(example_matrix);
+
         GameMapView gameMapView = new GameMapView(this);
         gameMapView.setControllerDraw(example_controller);
+        gameMapView.setControllerGame(game);
 
         setContentView(gameMapView);
     }
