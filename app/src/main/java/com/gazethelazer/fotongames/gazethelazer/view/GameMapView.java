@@ -84,8 +84,7 @@ public class GameMapView extends View {
                 Log.i("lazer", "" + mControllerDraw.getSquareCoordsX(ev.getX() + -mShiftX));
                 Log.i("lazer", "" + mControllerDraw.getSquareCoordsY(ev.getY() + -mShiftY));
 
-                if (traceLongClick == false)
-                {
+                if (traceLongClick == false) {
                     traceLongClick = true;
                     lastClick = Calendar.getInstance().getTimeInMillis();
                 }
@@ -141,10 +140,8 @@ public class GameMapView extends View {
             case MotionEvent.ACTION_UP:
                 mCurPointerId = Final.INVALID_POINTER_ID;
 
-                if (traceLongClick)
-                {
-                    if (Calendar.getInstance().getTimeInMillis() - lastClick >= mLongClickDuration)
-                    {
+                if (traceLongClick) {
+                    if (Calendar.getInstance().getTimeInMillis() - lastClick >= mLongClickDuration) {
                         traceLongClick = false;
                         Log.i("lazer", "LONG CLICK, Motherfucker");
                     }
@@ -203,10 +200,14 @@ public class GameMapView extends View {
 
                     mDummyPaint.setColor(color);
                     mDummyPaint.setStrokeWidth(10);
-
+//                    if (color == Color.GRAY) {
+//                        mDummyPaint.setAlpha(50);
+//                    }
+//                    Log.d("Color", "ALPHA = " + mDummyPaint.getAlpha() + " COLOR =  " + color);
 //                    Log.i("lazer", startx + " " + starty + " " + endx + " " + endy + " " + color);
 
                     local.drawLine(startx, starty, endx, endy, mDummyPaint);
+//                    mDummyPaint.setAlpha(255);
                 }
             }
         }

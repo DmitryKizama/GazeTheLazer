@@ -4,6 +4,7 @@ import android.graphics.Color;
 
 import com.gazethelazer.fotongames.gazethelazer.api.MatrixAPI;
 import com.gazethelazer.fotongames.gazethelazer.api.Square;
+import com.gazethelazer.fotongames.gazethelazer.static_and_final_variables.Final;
 
 public class ControllerDraw {
 
@@ -36,19 +37,19 @@ public class ControllerDraw {
                 // fuck this shit
                 if (field[i][j] == null) {
                     if (i == 0) {
-                        color_right = Color.GRAY;
+                        color_right = Final.COLOR_OF_EMPTY_SQUARE;
                     } else if (field[i - 1][j] != null) {
                         color_right = Color.BLACK;
                     } else {
-                        color_right = Color.GRAY;
+                        color_right = Final.COLOR_OF_EMPTY_SQUARE;
                     }
 
                     if (j == 0) {
-                        color_down = Color.GRAY;
+                        color_down = Final.COLOR_OF_EMPTY_SQUARE;
                     } else if (field[i][j - 1] != null) {
                         color_down = Color.BLACK;
                     } else {
-                        color_down = Color.GRAY;
+                        color_down = Final.COLOR_OF_EMPTY_SQUARE;
                     }
                 }
                 // even more of this shit
@@ -61,7 +62,7 @@ public class ControllerDraw {
                         if (field[i][j].right_side) {
                             color_right = Color.RED;
                         } else {
-                        color_right = Color.GRAY;
+                        color_right = Final.COLOR_OF_EMPTY_SQUARE;
                     }
                     }
 
@@ -74,7 +75,7 @@ public class ControllerDraw {
                         if (field[i][j].bottom_side) {
                             color_down = Color.RED;
                         } else {
-                        color_down = Color.GRAY;
+                        color_down = Final.COLOR_OF_EMPTY_SQUARE;
                         }
                     }
                     // fuck my life
