@@ -8,7 +8,6 @@ import com.gazethelazer.fotongames.gazethelazer.static_and_final_variables.Final
 
 public class ControllerDraw {
 
-    // FIXME: это пиздец
     int[][][][] mRenderedArray;
 
     int mSquareSize;
@@ -23,7 +22,8 @@ public class ControllerDraw {
     }
 
     public void render(MatrixAPI matrix) {
-        Square[][] field = matrix.getMatrix();
+        ControllerGame c = new ControllerGame(matrix);
+        Square[][] field = c.getField();
 
         mWidthInSquares = field[0].length;
         mHeightInSquares = field.length;
@@ -62,8 +62,8 @@ public class ControllerDraw {
                         if (field[i][j].right_side) {
                             color_right = Color.RED;
                         } else {
-                        color_right = Final.COLOR_OF_EMPTY_SQUARE;
-                    }
+                            color_right = Final.COLOR_OF_EMPTY_SQUARE;
+                        }
                     }
 
                     // please kill me
@@ -75,7 +75,7 @@ public class ControllerDraw {
                         if (field[i][j].bottom_side) {
                             color_down = Color.RED;
                         } else {
-                        color_down = Final.COLOR_OF_EMPTY_SQUARE;
+                            color_down = Final.COLOR_OF_EMPTY_SQUARE;
                         }
                     }
                     // fuck my life
