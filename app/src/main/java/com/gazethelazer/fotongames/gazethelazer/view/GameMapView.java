@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerDraw;
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerGame;
@@ -42,7 +42,7 @@ public class GameMapView extends View {
 
     Paint mDummyPaint = new Paint();
 
-    ArrayList<Button> mButtons = new ArrayList<Button>();
+    ArrayList<ImageButton> mButtons = new ArrayList<ImageButton>();
 
     public GameMapView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -74,12 +74,49 @@ public class GameMapView extends View {
         canvas.drawColor(Color.WHITE);
     }
 
-    public void createChooser(int sq_x, int sq_y, int[] moves) {
+    public void createChooser(float x, float y, int[] moves) {
         //TODO: more control over buttons
-        mButtons.get(0).setVisibility(VISIBLE);
+        ImageButton first = mButtons.get(0);
+        ImageButton second = mButtons.get(1);
+
+        first.setVisibility(VISIBLE);
+        second.setVisibility(VISIBLE);
+
+        float dragx = 0, dragy = 0;
+        float shift = 100;
+        float rotate_f = 0, rotate_s = 0;
+
+        if (moves[0] == 1)
+        {
+            dragy = shift;
+        }
+        else if (moves[2] == 1)
+        {
+            dragy = -shift;
+            rotate_f = 180;
+        }
+
+        if (moves[1] == 1)
+        {
+            dragx = shift;
+            rotate_s = 90;
+        }
+        else if (moves[3] == 1)
+        {
+            dragx = -shift;
+            rotate_s = 270;
+        }
+
+        first.setRotation(rotate_f);
+        first.setX(x - first.getWidth() / 2);
+        first.setY(y - first.getHeight() / 2 - dragy);
+
+        second.setX(x - first.getWidth() / 2 + dragx);
+        second.setY(y - first.getHeight() / 2);
+        second.setRotation(rotate_s);
     }
 
-    public void addButton(Button b)
+    public void addButton(ImageButton b)
     {
         mButtons.add(b);
     }
@@ -152,7 +189,13 @@ public class GameMapView extends View {
 
                 if (Math.abs(relshiftX) > mControllerDraw.getSquareSize()/3
                     && Math.abs(relshiftY) > mControllerDraw.getSquareSize()/3)
+                {
                     traceLongClick = false;
+                    for (ImageButton b : mButtons)
+                    {
+                        b.setVisibility(INVISIBLE);
+                    }
+                }
 
                 break;
 
@@ -177,9 +220,10 @@ public class GameMapView extends View {
 
                         if (sum == 1) {
                             int[] axis = mControllerGame.getEdgeSingularMove(moves);
+
                             mControllerGame.turn(sq_x, sq_y, axis[0], axis[1]);
                         } else if (sum > 1) {
-                            createChooser(sq_x, sq_y, moves);
+                            createChooser(ev.getX(), ev.getY(), moves);
                         }
                     }
                 }

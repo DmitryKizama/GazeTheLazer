@@ -11,13 +11,13 @@
 
     </com.gazethelazer.fotongames.gazethelazer.view.GameMapView>
 
-    <Button
+    <ImageButton
         android:id="@+id/arrowButton1"
         style="@style/arrowButton">
-    </Button>
-    <Button
+    </ImageButton>
+    <ImageButton
         android:id="@+id/arrowButton2"
         style="@style/arrowButton">
-    </Button>
+    </ImageButton>
 
 </FrameLayout>
