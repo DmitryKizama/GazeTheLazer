@@ -10,12 +10,13 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 
-import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerDraw;
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerGame;
 import com.gazethelazer.fotongames.gazethelazer.static_and_final_variables.Final;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class GameMapView extends View {
@@ -40,6 +41,8 @@ public class GameMapView extends View {
     ControllerGame mControllerGame;
 
     Paint mDummyPaint = new Paint();
+
+    ArrayList<Button> mButtons = new ArrayList<Button>();
 
     public GameMapView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -72,8 +75,13 @@ public class GameMapView extends View {
     }
 
     public void createChooser(int sq_x, int sq_y, int[] moves) {
-        BootstrapButton button = new BootstrapButton(getContext());
-        button.setLeftIcon("fa-arrow-right");
+        //TODO: more control over buttons
+        mButtons.get(0).setVisibility(VISIBLE);
+    }
+
+    public void addButton(Button b)
+    {
+        mButtons.add(b);
     }
 
     @Override

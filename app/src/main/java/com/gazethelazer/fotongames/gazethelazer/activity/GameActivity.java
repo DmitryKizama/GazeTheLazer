@@ -2,7 +2,9 @@ package com.gazethelazer.fotongames.gazethelazer.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.Button;
 
+import com.gazethelazer.fotongames.gazethelazer.R;
 import com.gazethelazer.fotongames.gazethelazer.api.MatrixAPI;
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerDraw;
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerGame;
@@ -24,10 +26,14 @@ public class GameActivity extends Activity {
 
         ControllerGame game = new ControllerGame(example_matrix);
 
-        GameMapView gameMapView = new GameMapView(this);
+
+        setContentView(R.layout.activity_game);
+
+        GameMapView gameMapView = (GameMapView) findViewById(R.id.gameMapView);
         gameMapView.setControllerDraw(example_controller);
         gameMapView.setControllerGame(game);
 
-        setContentView(gameMapView);
+        gameMapView.addButton((Button) findViewById(R.id.arrowButton1));
+        gameMapView.addButton((Button) findViewById(R.id.arrowButton2));
     }
 }
