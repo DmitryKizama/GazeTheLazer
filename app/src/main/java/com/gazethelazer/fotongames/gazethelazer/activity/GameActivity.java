@@ -2,8 +2,8 @@ package com.gazethelazer.fotongames.gazethelazer.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.ImageButton;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.gazethelazer.fotongames.gazethelazer.R;
 import com.gazethelazer.fotongames.gazethelazer.api.MatrixAPI;
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerDraw;
@@ -33,7 +33,7 @@ public class GameActivity extends Activity {
         gameMapView.setControllerDraw(example_controller);
         gameMapView.setControllerGame(game);
 
-        gameMapView.addButton((ImageButton) findViewById(R.id.arrowButton1));
-        gameMapView.addButton((ImageButton) findViewById(R.id.arrowButton2));
+        gameMapView.addButton((BootstrapButton) findViewById(R.id.arrowButton1));
+        gameMapView.addButton((BootstrapButton) findViewById(R.id.arrowButton2));
     }
 }

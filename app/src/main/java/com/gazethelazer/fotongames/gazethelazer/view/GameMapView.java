@@ -10,8 +10,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageButton;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerDraw;
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerGame;
 import com.gazethelazer.fotongames.gazethelazer.static_and_final_variables.Final;
@@ -22,6 +22,7 @@ import java.util.Calendar;
 public class GameMapView extends View {
     float mPreviousX;
     float mPreviousY;
+
     int mCurPointerId = Final.INVALID_POINTER_ID;
     float mShiftX;
     float mShiftY;
@@ -42,7 +43,10 @@ public class GameMapView extends View {
 
     Paint mDummyPaint = new Paint();
 
-    ArrayList<ImageButton> mButtons = new ArrayList<ImageButton>();
+    ArrayList<BootstrapButton> mButtons = new ArrayList<BootstrapButton>();
+
+    float mLastTouchX;
+    float mLastTouchY;
 
     public GameMapView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -76,14 +80,14 @@ public class GameMapView extends View {
 
     public void createChooser(float x, float y, int[] moves) {
         //TODO: more control over buttons
-        ImageButton first = mButtons.get(0);
-        ImageButton second = mButtons.get(1);
+        BootstrapButton first = mButtons.get(0);
+        BootstrapButton second = mButtons.get(1);
 
         first.setVisibility(VISIBLE);
         second.setVisibility(VISIBLE);
 
         float dragx = 0, dragy = 0;
-        float shift = 100;
+        float shift = Final.BUTTON_SHIFT;
         float rotate_f = 0, rotate_s = 0;
 
         if (moves[0] == 1)
@@ -116,9 +120,17 @@ public class GameMapView extends View {
         second.setRotation(rotate_s);
     }
 
-    public void addButton(ImageButton b)
+    public void addButton(BootstrapButton b)
     {
         mButtons.add(b);
+    }
+
+    public void hideButtons()
+    {
+        for (BootstrapButton b : mButtons)
+        {
+            b.setVisibility(INVISIBLE);
+        }
     }
 
     @Override
@@ -188,13 +200,15 @@ public class GameMapView extends View {
                 if (invalidate) invalidate();
 
                 if (Math.abs(relshiftX) > mControllerDraw.getSquareSize()/3
-                    && Math.abs(relshiftY) > mControllerDraw.getSquareSize()/3)
+                        || Math.abs(relshiftY) > mControllerDraw.getSquareSize()/3)
                 {
                     traceLongClick = false;
-                    for (ImageButton b : mButtons)
-                    {
-                        b.setVisibility(INVISIBLE);
-                    }
+                }
+
+                if (Math.abs(mLastTouchX - ev.getX(index)) > mControllerDraw.getSquareSize()
+                        || Math.abs(mLastTouchY - ev.getY(index)) > mControllerDraw.getSquareSize())
+                {
+                    hideButtons();
                 }
 
                 break;
@@ -223,6 +237,9 @@ public class GameMapView extends View {
 
                             mControllerGame.turn(sq_x, sq_y, axis[0], axis[1]);
                         } else if (sum > 1) {
+                            mLastTouchX = ev.getX();
+                            mLastTouchY = ev.getY();
+
                             createChooser(ev.getX(), ev.getY(), moves);
                         }
                     }
