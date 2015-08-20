@@ -14,27 +14,36 @@ import com.gazethelazer.fotongames.gazethelazer.view.GameMapView;
 
 public class GameActivity extends Activity {
 
+    static boolean mGameStarted = false;
+
     GameMapView mGameMapView;
+    static ControllerDraw mControllerDraw;
+    static ControllerGame mControllerGame;
+    static MatrixAPI mModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ControllerDraw example_controller = new ControllerDraw();
-        MatrixAPI example_matrix = new MatrixAPI(Final.NUMBER_OF_SQUARE_HEIGHTS, Final.NUMBER_OF_SQUARE_WEIGHTS);
+        if (mGameStarted == false)
+        {
+            mControllerDraw = new ControllerDraw();
+            mModel = new MatrixAPI(Final.NUMBER_OF_SQUARE_HEIGHTS, Final.NUMBER_OF_SQUARE_WEIGHTS);
 
-        example_controller.setSquareSize(Final.SIZE_OF_SQUARE);
+            mControllerDraw.setSquareSize(Final.SIZE_OF_SQUARE);
+            mControllerDraw.render(mModel);
 
-        example_controller.render(example_matrix);
+            mControllerGame = new ControllerGame(mModel);
 
-        ControllerGame game = new ControllerGame(example_matrix);
+            mGameStarted = true;
+        }
 
 
         setContentView(R.layout.activity_game);
 
         mGameMapView = (GameMapView) findViewById(R.id.gameMapView);
-        mGameMapView.setControllerDraw(example_controller);
-        mGameMapView.setControllerGame(game);
+        mGameMapView.setControllerDraw(mControllerDraw);
+        mGameMapView.setControllerGame(mControllerGame);
 
         mGameMapView.addButton((BootstrapButton) findViewById(R.id.arrowButton1));
         mGameMapView.addButton((BootstrapButton) findViewById(R.id.arrowButton2));
