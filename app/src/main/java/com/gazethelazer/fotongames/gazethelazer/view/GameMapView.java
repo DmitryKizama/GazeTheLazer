@@ -133,6 +133,34 @@ public class GameMapView extends View {
         }
     }
 
+    public void onArrowClick(View v)
+    {
+        int r = (int) v.getRotation();
+        int axisx = 0, axisy = 0;
+
+        switch (r)
+        {
+            case 0:
+                axisy = 1;
+                break;
+            case 180:
+                axisy = -1;
+                break;
+            case 90:
+                axisx = 1;
+                break;
+            case 270:
+                axisx = -1;
+                break;
+        }
+
+        int x = mControllerDraw.getSquareCoordsX(mLastTouchX);
+        int y = mControllerDraw.getSquareCoordsY(mLastTouchY);
+
+        mControllerGame.turn(x, y, axisx, axisy);
+        hideButtons();
+    }
+
     @Override
     public void onSizeChanged(int w, int h, int oldw, int oldh) {
         if (mBitmap == null)
@@ -232,11 +260,14 @@ public class GameMapView extends View {
                         for (int i = 0; i < 4; i++)
                             sum += moves[i];
 
-                        if (sum == 1) {
+                        if (sum == 1)
+                        {
                             int[] axis = mControllerGame.getEdgeSingularMove(moves);
 
                             mControllerGame.turn(sq_x, sq_y, axis[0], axis[1]);
-                        } else if (sum > 1) {
+                        }
+                        else if (sum > 1)
+                        {
                             mLastTouchX = ev.getX();
                             mLastTouchY = ev.getY();
 
