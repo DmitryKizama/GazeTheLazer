@@ -79,7 +79,6 @@ public class GameMapView extends View {
     }
 
     public void createChooser(float x, float y, int[] moves) {
-        //TODO: more control over buttons
         BootstrapButton first = mButtons.get(0);
         BootstrapButton second = mButtons.get(1);
 
@@ -154,8 +153,8 @@ public class GameMapView extends View {
                 break;
         }
 
-        int x = mControllerDraw.getSquareCoordsX(mLastTouchX);
-        int y = mControllerDraw.getSquareCoordsY(mLastTouchY);
+        int x = mControllerDraw.getSquareCoordsX(mLastTouchX + -mShiftX);
+        int y = mControllerDraw.getSquareCoordsY(mLastTouchY + -mShiftY);
 
         mControllerGame.turn(x, y, axisx, axisy);
         hideButtons();
