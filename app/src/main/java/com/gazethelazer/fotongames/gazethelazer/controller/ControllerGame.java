@@ -1,7 +1,10 @@
 package com.gazethelazer.fotongames.gazethelazer.controller;
 
 import com.gazethelazer.fotongames.gazethelazer.api.MatrixAPI;
+import com.gazethelazer.fotongames.gazethelazer.api.Player;
 import com.gazethelazer.fotongames.gazethelazer.api.Square;
+
+import java.util.ArrayList;
 
 public class ControllerGame {
 
@@ -9,8 +12,57 @@ public class ControllerGame {
     int height;
     int widht;
 
+    ArrayList<Player> mPlayers = new ArrayList<Player>();
+    Player mCurrentPlayer;
+    Square[][] mLastTurnField;
+
     public ControllerGame(MatrixAPI matrix) {
         field = matrix.getMatrix();
+    }
+
+    int calculateScore(Square[][] latestField, Square[][] lastTurnField)
+    {
+        int score = 0;
+
+        for (int i = 0; i < widht; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                boolean latestSquareBordered, lastTurnSquareBordered;
+
+                latestSquareBordered = checkSquareBorder(latestField, i, j);
+                lastTurnSquareBordered = checkSquareBorder(lastTurnField, i, j);
+
+                if (!lastTurnSquareBordered && latestSquareBordered)
+                    score++;
+            }
+        }
+
+        return score;
+    }
+
+    boolean checkSquareBorder(Square[][] matrix, int x, int y)
+    {
+        boolean left = false, top = false, right = false, bottom = false;
+
+        if (x==0 || matrix[x-1][y]==null || matrix[x][y].bottom_side)
+        {
+            left = true;
+        }
+        if (y==0 || matrix[x][y-1]==null || matrix[x][y].right_side)
+        {
+            top = true;
+        }
+        if (x==widht || matrix[x+1][y]==null || matrix[x+1][y].bottom_side)
+        {
+            right = true;
+        }
+        if (y==height || matrix[x][y+1]==null || matrix[x][y+1].right_side)
+        {
+            bottom = true;
+        }
+
+        return left && top && right && bottom;
     }
 
     public int[] checkForAwailableEdges(int x, int y) {
