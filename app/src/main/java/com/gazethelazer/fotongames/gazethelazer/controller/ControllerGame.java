@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class ControllerGame {
 
+    MatrixAPI model;
     private Square[][] field;
     int height;
     int widht;
@@ -15,8 +16,10 @@ public class ControllerGame {
     ArrayList<Player> mPlayers = new ArrayList<Player>();
     Player mCurrentPlayer;
     Square[][] mLastTurnField;
+    ControllerDraw mControllerDraw;
 
     public ControllerGame(MatrixAPI matrix) {
+        model = matrix;
         field = matrix.getMatrix();
     }
 
@@ -63,6 +66,11 @@ public class ControllerGame {
         }
 
         return left && top && right && bottom;
+    }
+
+    public void setControllerDraw(ControllerDraw controllerDraw)
+    {
+        mControllerDraw = controllerDraw;
     }
 
     public int[] checkForAwailableEdges(int x, int y) {
@@ -130,6 +138,7 @@ public class ControllerGame {
             }
         }
 
+        mControllerDraw.render(model);
     }
 
     public int[] getEdgeSingularMove(int[] moves) {

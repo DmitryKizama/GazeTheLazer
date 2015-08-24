@@ -34,6 +34,7 @@ public class GameActivity extends Activity {
             mControllerDraw.render(mModel);
 
             mControllerGame = new ControllerGame(mModel);
+            mControllerGame.setControllerDraw(mControllerDraw);
 
             mGameStarted = true;
         }

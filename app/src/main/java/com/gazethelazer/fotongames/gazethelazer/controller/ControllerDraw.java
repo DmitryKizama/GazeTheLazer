@@ -22,8 +22,7 @@ public class ControllerDraw {
     }
 
     public void render(MatrixAPI matrix) {
-        ControllerGame c = new ControllerGame(matrix);
-        Square[][] field = c.getField();
+        Square[][] field = matrix.getMatrix();
 
         mWidthInSquares = field[0].length;
         mHeightInSquares = field.length;
