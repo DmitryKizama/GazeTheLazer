@@ -116,10 +116,12 @@ public class ControllerGame {
     public void turn(int x, int y, int axisX, int axisY) {
         int iX = x;
         int iY = y;
+        int i = 0;
         myAxisX = axisX;
         myAxisY = axisY;
         nextTurnIsOver = false;
         while (!nextTurnIsOver) {
+            i++;
             if (myAxisX != 0) {
                 Log.d("ControllerGame", "axisX = " + myAxisX);
                 iX = whileX(iX, iY, myAxisX);
@@ -127,6 +129,9 @@ public class ControllerGame {
             if (myAxisY != 0) {
                 Log.d("ControllerGame", "axisY = " + myAxisY);
                 iY = whileY(iX, iY, myAxisY);
+            }
+            if (i == 40) {
+                nextTurnIsOver = true;
             }
         }
 
@@ -158,18 +163,26 @@ public class ControllerGame {
 
         if (field[y - i * sign][x] != null && field[y - i * sign][x - 1] == null) {
             myAxisX = 1;
-            if (myAxisY == 1)
+            if (myAxisY == 1) {
+                myAxisY = 0;
                 return (y - i * sign + 1 * sign);
-            else
+            }
+            else {
+                myAxisY = 0;
                 return (y - i * sign);
+            }
         }
 
         if (field[y - i * sign][x] == null && field[y - i * sign][x - 1] != null) {
             myAxisX = -1;
-            if (myAxisY == 1)
+            if (myAxisY == 1) {
+                myAxisY = 0;
                 return (y - i * sign + 1 * sign);
-            else
+            }
+            else {
+                myAxisY = 0;
                 return (y - i * sign);
+            }
         }
 
         return (y - i * sign + 1 * sign);
@@ -190,17 +203,25 @@ public class ControllerGame {
 
         if (field[y][x + i * sign] != null && field[y - 1][x + i * sign] == null) {
             myAxisY = -1;
-            if (myAxisX == -1)
+            if (myAxisX == -1) {
+                myAxisX = 0;
                 return (x + i * sign - 1 * sign);
-            else
+            }
+            else {
+                myAxisX = 0;
                 return (x + i * sign);
+            }
         }
         if (field[y][x + i * sign] == null && field[y - 1][x + i * sign] != null) {
             myAxisY = 1;
-            if (myAxisX == -1)
+            if (myAxisX == -1) {
+                myAxisX = 0;
                 return (x + i * sign - 1 * sign);
-            else
+            }
+            else {
+                myAxisX = 0;
                 return (x + i * sign);
+            }
         }
 
         return (x + i * sign - 1 * sign);
