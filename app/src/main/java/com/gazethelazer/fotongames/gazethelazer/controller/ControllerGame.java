@@ -1,5 +1,7 @@
 package com.gazethelazer.fotongames.gazethelazer.controller;
 
+import android.util.Log;
+
 import com.gazethelazer.fotongames.gazethelazer.api.MatrixAPI;
 import com.gazethelazer.fotongames.gazethelazer.api.Player;
 import com.gazethelazer.fotongames.gazethelazer.api.Square;
@@ -12,6 +14,10 @@ public class ControllerGame {
     private Square[][] field;
     int height;
     int widht;
+    boolean nextTurnIsOver;
+
+    int myAxisX;
+    int myAxisY;
 
     ArrayList<Player> mPlayers = new ArrayList<Player>();
     Player mCurrentPlayer;
@@ -107,6 +113,26 @@ public class ControllerGame {
         return turn;
     }
 
+    public void turn(int x, int y, int axisX, int axisY) {
+        int iX = x;
+        int iY = y;
+        myAxisX = axisX;
+        myAxisY = axisY;
+        nextTurnIsOver = false;
+        while (!nextTurnIsOver) {
+            if (myAxisX != 0) {
+                Log.d("ControllerGame", "axisX = " + myAxisX);
+                iX = whileX(iX, iY, myAxisX);
+            }
+            if (myAxisY != 0) {
+                Log.d("ControllerGame", "axisY = " + myAxisY);
+                iY = whileY(iX, iY, myAxisY);
+            }
+        }
+
+        mControllerDraw.render(model);
+    }
+
     public int[] getEdgeSingularMove(int[] moves) {
         if (moves[0] == 1)
             return new int[]{0, 1};
@@ -118,28 +144,66 @@ public class ControllerGame {
             return new int[]{-1, 0};
     }
 
-    public void turn(int x, int y, int axisX, int axisY) {
-        int iX;
-        int iY;
+    private int whileY(int x, int y, int sign) {
         int i = 0;
-        int j = 0;
-        if (field[y][x] == null) {
+        if (field[y][x] == null || field[y][x - 1] == null)
             i = 1;
-            j = 1;
-        }
-        while (field[y + i * axisY][x] != null && field[y + i * axisY][x - 1] != null) {
-            field[y + i * axisY][x].bottom_side = true;
+        while (field[y - i * sign][x] != null && field[y - i * sign][x - 1] != null) {
+            Log.d("ControllerGame", "enter in while Y");
+            field[y - i * sign][x].bottom_side = true;
             i++;
         }
+        if (field[y - i * sign][x] == null && field[y - i * sign][x - 1] == null)
+            nextTurnIsOver = true;
 
-        if (field[y][x] == null)
-            j = 1;
-        while (field[y][x + j * axisX] != null && field[y - 1][x + j * axisX] != null) {
-            field[y][x + j * axisX].right_side = true;
-            j++;
+        if (field[y - i * sign][x] != null && field[y - i * sign][x - 1] == null) {
+            myAxisX = 1;
+            if (myAxisY == 1)
+                return (y - i * sign + 1 * sign);
+            else
+                return (y - i * sign);
         }
 
-        mControllerDraw.render(model);
+        if (field[y - i * sign][x] == null && field[y - i * sign][x - 1] != null) {
+            myAxisX = -1;
+            if (myAxisY == 1)
+                return (y - i * sign + 1 * sign);
+            else
+                return (y - i * sign);
+        }
+
+        return (y - i * sign + 1 * sign);
+    }
+
+    private int whileX(int x, int y, int sign) {
+        int i = 0;
+        if (field[y][x] == null || field[y - 1][x] == null)
+            i = 1;
+        while (field[y][x + i * sign] != null && field[y - 1][x + i * sign] != null) {
+            Log.d("ControllerGame", "enter in while X");
+            field[y][x + i * sign].right_side = true;
+            i++;
+
+        }
+        if (field[y][x + i * sign] == null && field[y - 1][x + i * sign] == null)
+            nextTurnIsOver = true;
+
+        if (field[y][x + i * sign] != null && field[y - 1][x + i * sign] == null) {
+            myAxisY = -1;
+            if (myAxisX == -1)
+                return (x + i * sign - 1 * sign);
+            else
+                return (x + i * sign);
+        }
+        if (field[y][x + i * sign] == null && field[y - 1][x + i * sign] != null) {
+            myAxisY = 1;
+            if (myAxisX == -1)
+                return (x + i * sign - 1 * sign);
+            else
+                return (x + i * sign);
+        }
+
+        return (x + i * sign - 1 * sign);
     }
 
     public Square[][] getField() {
