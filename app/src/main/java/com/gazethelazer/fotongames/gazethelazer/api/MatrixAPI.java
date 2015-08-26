@@ -29,15 +29,14 @@ public class MatrixAPI {
         int centerW = Math.round(widthsM / 2);
         int centerH = Math.round(heightsM / 2);
         int numberOfRepeat = 1;
-        Square square = new Square();
-        matrix[centerH][centerW] = square;
+        matrix[centerH][centerW] = new Square();
         for (int i = 0; i < Final.MIN_SIZE_PLAYGROUND; i++) {
             for (int j = 0; j < Final.MIN_SIZE_PLAYGROUND; j++) {
-                matrix[centerH - i][centerW - j] = square;
-                matrix[centerH - i][centerW + j] = square;
-                matrix[centerH - j][centerW - i] = square;
-                matrix[centerH + j][centerW - i] = square;
-                matrix[centerH + j][centerW + i] = square;
+                matrix[centerH - i][centerW - j] = new Square();
+                matrix[centerH - i][centerW + j] = new Square();
+                matrix[centerH - j][centerW - i] = new Square();
+                matrix[centerH + j][centerW - i] = new Square();
+                matrix[centerH + j][centerW + i] = new Square();
             }
         }
 
@@ -56,13 +55,13 @@ public class MatrixAPI {
                 for (int j = 1; j < widthsM - 1; j++) {
                     if (random.nextBoolean()) {
                         if (matrix[i][j - 1] != null)
-                            matrix[i][j] = square;
+                            matrix[i][j] = new Square();
                         if (matrix[i - 1][j] != null)
-                            matrix[i][j] = square;
+                            matrix[i][j] = new Square();
                         if (matrix[i + 1][j] != null)
-                            matrix[i][j] = square;
+                            matrix[i][j] = new Square();
                         if (matrix[i][j + 1] != null)
-                            matrix[i][j] = square;
+                            matrix[i][j] = new Square();
                     }
                 }
             }
@@ -70,13 +69,13 @@ public class MatrixAPI {
                 for (int j = widthsM - 2; j > 1; j--) {
                     if (random.nextBoolean()) {
                         if (matrix[i][j - 1] != null)
-                            matrix[i][j] = square;
+                            matrix[i][j] = new Square();
                         if (matrix[i - 1][j] != null)
-                            matrix[i][j] = square;
+                            matrix[i][j] = new Square();
                         if (matrix[i + 1][j] != null)
-                            matrix[i][j] = square;
+                            matrix[i][j] = new Square();
                         if (matrix[i][j + 1] != null)
-                            matrix[i][j] = square;
+                            matrix[i][j] = new Square();
                     }
                 }
             }

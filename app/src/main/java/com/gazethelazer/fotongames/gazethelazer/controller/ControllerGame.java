@@ -107,19 +107,6 @@ public class ControllerGame {
         return turn;
     }
 
-    public void turn(int x, int y, int axisX, int axisY) {
-        int iX;
-        int iY;
-        if (axisX != 0) {
-            iX = whileX(x, y, axisX);
-        }
-        if (axisY != 0) {
-            iY = whileY(x, y, axisY);
-        }
-
-        mControllerDraw.render(model);
-    }
-
     public int[] getEdgeSingularMove(int[] moves) {
         if (moves[0] == 1)
             return new int[]{0, 1};
@@ -131,26 +118,28 @@ public class ControllerGame {
             return new int[]{-1, 0};
     }
 
-    private int whileY(int x, int y, int sign) {
+    public void turn(int x, int y, int axisX, int axisY) {
+        int iX;
+        int iY;
         int i = 0;
-        if (field[y][x] == null)
+        int j = 0;
+        if (field[y][x] == null) {
             i = 1;
-        while (field[y + i * sign][x] != null && field[y + i * sign][x - 1] != null) {
-            field[y + i * sign][x].bottom_side = true;
+            j = 1;
+        }
+        while (field[y + i * axisY][x] != null && field[y + i * axisY][x - 1] != null) {
+            field[y + i * axisY][x].bottom_side = true;
             i++;
         }
-        return (y + i * sign);
-    }
 
-    private int whileX(int x, int y, int sign) {
-        int i = 0;
         if (field[y][x] == null)
-            i = 1;
-        while (field[y][x + i * sign] != null && field[y - 1][x + i * sign] != null) {
-            field[y][x + i * sign].right_side = true;
-            i++;
+            j = 1;
+        while (field[y][x + j * axisX] != null && field[y - 1][x + j * axisX] != null) {
+            field[y][x + j * axisX].right_side = true;
+            j++;
         }
-        return (x + i * sign);
+
+        mControllerDraw.render(model);
     }
 
     public Square[][] getField() {
