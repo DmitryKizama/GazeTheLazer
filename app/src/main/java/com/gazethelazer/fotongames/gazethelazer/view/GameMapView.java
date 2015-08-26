@@ -69,6 +69,13 @@ public class GameMapView extends View {
         mControllerGame = controllergame;
     }
 
+    public void cleanUp()
+    {
+        mControllerDraw = null;
+        mControllerGame = null;
+        mBitmap.recycle();
+    }
+
     public void generateBlankBitmap() {
         mHeight = mControllerDraw.getHeight();
         mWidth = mControllerDraw.getWidth();
@@ -247,13 +254,11 @@ public class GameMapView extends View {
                     if (Calendar.getInstance().getTimeInMillis() - lastClick >= mLongClickDuration) {
                         traceLongClick = false;
 
+                        //TODO: move this to ControllerGame
                         int sq_x = mControllerDraw.getSquareCoordsX(ev.getX() + -mShiftX);
                         int sq_y = mControllerDraw.getSquareCoordsY(ev.getY() + -mShiftY);
 
                         int moves[] = mControllerGame.checkForAwailableEdges(sq_x, sq_y);
-
-                        Log.i("lazer", "long touch");
-                        Log.i("lazer", "" + moves[0] + " " + moves[1] + " " + moves[2] + " " + moves [3]);
 
                         int sum = 0;
                         for (int i = 0; i < 4; i++)

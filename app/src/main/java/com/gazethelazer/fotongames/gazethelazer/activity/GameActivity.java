@@ -54,4 +54,12 @@ public class GameActivity extends Activity {
     {
         mGameMapView.onArrowClick(v);
     }
+
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+
+        mGameMapView.cleanUp();
+    }
 }
