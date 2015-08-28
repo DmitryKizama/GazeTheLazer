@@ -42,6 +42,7 @@ public class GameMapView extends View {
     ControllerGame mControllerGame;
 
     Paint mDummyPaint = new Paint();
+    Canvas mDummyCanvas = new Canvas();
 
     ArrayList<BootstrapButton> mButtons = new ArrayList<BootstrapButton>();
 
@@ -81,8 +82,8 @@ public class GameMapView extends View {
         mWidth = mControllerDraw.getWidth();
 
         mBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.RGB_565);
-        Canvas canvas = new Canvas(mBitmap);
-        canvas.drawColor(Color.WHITE);
+        mDummyCanvas.setBitmap(mBitmap);
+        mDummyCanvas.drawColor(Color.WHITE);
     }
 
     public void createChooser(float x, float y, int[] moves) {
@@ -322,8 +323,6 @@ public class GameMapView extends View {
         int width_sq = mControllerDraw.getmWidthInSquares();
         int height_sq = mControllerDraw.getHeightInSquares();
 
-        Canvas local = new Canvas(mBitmap);
-
         for (int i = 0; i < height_sq; i++) {
             for (int j = 0; j < width_sq; j++) {
                 for (int k = 0; k < 2; k++) {
@@ -341,7 +340,7 @@ public class GameMapView extends View {
 //                    Log.d("Color", "ALPHA = " + mDummyPaint.getAlpha() + " COLOR =  " + color);
 //                    Log.i("lazer", startx + " " + starty + " " + endx + " " + endy + " " + color);
 
-                    local.drawLine(startx, starty, endx, endy, mDummyPaint);
+                    mDummyCanvas.drawLine(startx, starty, endx, endy, mDummyPaint);
 //                    mDummyPaint.setAlpha(255);
                 }
             }
