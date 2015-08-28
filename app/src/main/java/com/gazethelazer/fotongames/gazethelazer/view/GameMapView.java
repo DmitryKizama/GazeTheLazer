@@ -165,6 +165,7 @@ public class GameMapView extends View {
 
         mControllerGame.turn(x, y, axisx, axisy);
         hideButtons();
+        invalidate();
     }
 
     @Override
@@ -269,6 +270,7 @@ public class GameMapView extends View {
                             int[] axis = mControllerGame.getEdgeSingularMove(moves);
 
                             mControllerGame.turn(sq_x, sq_y, axis[0], axis[1]);
+                            invalidate();
                         }
                         else if (sum > 1)
                         {
