@@ -3,6 +3,7 @@ package com.gazethelazer.fotongames.gazethelazer.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.gazethelazer.fotongames.gazethelazer.R;
@@ -36,6 +37,9 @@ public class GameActivity extends Activity {
             mControllerGame = new ControllerGame(mModel);
             mControllerGame.setControllerDraw(mControllerDraw);
 
+            mControllerGame.addPlayer();
+            mControllerGame.addPlayer();
+
             mGameStarted = true;
         }
 
@@ -48,6 +52,8 @@ public class GameActivity extends Activity {
 
         mGameMapView.addButton((BootstrapButton) findViewById(R.id.arrowButton1));
         mGameMapView.addButton((BootstrapButton) findViewById(R.id.arrowButton2));
+        mGameMapView.addLabel((TextView) findViewById(R.id.textView));
+        mGameMapView.addLabel((TextView) findViewById(R.id.textView2));
     }
 
     public void onArrowClick(View v)

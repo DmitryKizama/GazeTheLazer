@@ -13,14 +13,15 @@ public class ControllerGame {
     MatrixAPI model;
     private Square[][] field;
     int height;
-    int widht;
+    int width;
     boolean nextTurnIsOver;
 
     int myAxisX;
     int myAxisY;
 
-    ArrayList<Player> mPlayers = new ArrayList<Player>();
+    ArrayList<Player> mPlayers = new ArrayList<>();
     Player mCurrentPlayer;
+
     Square[][] mLastTurnField;
     ControllerDraw mControllerDraw;
 
@@ -29,11 +30,48 @@ public class ControllerGame {
         field = matrix.getMatrix();
     }
 
+    public void addPlayer()
+    {
+        Player p = new Player(mPlayers.size());
+        if (mPlayers.size() == 0)
+            mCurrentPlayer = p;
+
+        mPlayers.add(p);
+    }
+
+    public Player getCurrentPlayer()
+    {
+        return mCurrentPlayer;
+    }
+
+    public void setCurrentPlayer(Player p)
+    {
+        mCurrentPlayer = p;
+    }
+
+    public Player getPlayer(int n)
+    {
+        return mPlayers.get(n);
+    }
+
+    public int getPlayersNumber()
+    {
+        return mPlayers.size();
+    }
+
+    public void moveToNextPlayer()
+    {
+        if (getCurrentPlayer().getNumber() == getPlayersNumber()-1)
+            setCurrentPlayer(getPlayer(0));
+        else
+            setCurrentPlayer(getPlayer(getCurrentPlayer().getNumber()+1));
+    }
+
     int calculateScore(Square[][] latestField, Square[][] lastTurnField) {
         int score = 0;
 
-        for (int i = 0; i < widht; i++) {
-            for (int j = 0; j < height; j++) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
                 boolean latestSquareBordered, lastTurnSquareBordered;
 
                 latestSquareBordered = checkSquareBorder(latestField, i, j);
@@ -47,20 +85,22 @@ public class ControllerGame {
         return score;
     }
 
-    boolean checkSquareBorder(Square[][] matrix, int x, int y) {
+    boolean checkSquareBorder(Square[][] matrix, int i, int j) {
         boolean left = false, top = false, right = false, bottom = false;
 
-        if (x == 0 || matrix[x - 1][y] == null || matrix[x][y].bottom_side) {
-            left = true;
-        }
-        if (y == 0 || matrix[x][y - 1] == null || matrix[x][y].right_side) {
-            top = true;
-        }
-        if (x == widht || matrix[x + 1][y] == null || matrix[x + 1][y].bottom_side) {
-            right = true;
-        }
-        if (y == height || matrix[x][y + 1] == null || matrix[x][y + 1].right_side) {
-            bottom = true;
+        if (matrix[i][j] != null) {
+            if (j == 0 || matrix[i][j - 1] == null || matrix[i][j].bottom_side) {
+                left = true;
+            }
+            if (i == 0 || matrix[i - 1][j] == null || matrix[i][j].right_side) {
+                top = true;
+            }
+            if (j == width - 1 || matrix[i][j + 1] == null || matrix[i][j + 1].bottom_side) {
+                right = true;
+            }
+            if (i == height - 1 || matrix[i + 1][j] == null || matrix[i + 1][j].right_side) {
+                bottom = true;
+            }
         }
 
         return left && top && right && bottom;
@@ -76,10 +116,10 @@ public class ControllerGame {
             turn[i] = 0;
         }
 
-        widht = field[0].length;
+        width = field[0].length;
         height = field.length;
 
-        if (x > 0 && y > 0 && x < widht && y < height) {
+        if (x > 0 && y > 0 && x < width && y < height) {
             if (field[y][x] != null) {
                 if (field[y - 1][x] != null) {
                     if (field[y][x - 1] != null) {
@@ -120,6 +160,9 @@ public class ControllerGame {
         myAxisX = axisX;
         myAxisY = axisY;
         nextTurnIsOver = false;
+
+        mLastTurnField = cloneField(field);
+
         while (!nextTurnIsOver) {
             i++;
             if (myAxisX != 0) {
@@ -134,6 +177,9 @@ public class ControllerGame {
                 nextTurnIsOver = true;
             }
         }
+
+        getCurrentPlayer().addScore(calculateScore(field, mLastTurnField));
+        moveToNextPlayer();
 
         mControllerDraw.render(model);
     }
@@ -231,4 +277,22 @@ public class ControllerGame {
         return field;
     }
 
+    public Square[][] cloneField(Square[][] input)
+    {
+        int height = input.length;
+        int width = input[0].length;
+
+        Square[][] output = new Square[height][width];
+
+        for (int i = 0; i < height; i++)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                if (input[i][j] != null)
+                    output[i][j] = new Square(input[i][j].right_side, input[i][j].bottom_side);
+            }
+        }
+
+        return output;
+    }
 }

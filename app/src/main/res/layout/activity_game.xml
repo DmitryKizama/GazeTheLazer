@@ -20,4 +20,25 @@
         style="@style/arrowButton">
     </com.beardedhen.androidbootstrap.BootstrapButton>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/textView"
+        android:layout_gravity="right|top"
+        android:paddingRight="10dp"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/textView2"
+        android:layout_gravity="right|top"
+        android:paddingRight="10dp"
+        android:paddingTop="30dp"
+        android:visibility="invisible"/>
+
 </FrameLayout>

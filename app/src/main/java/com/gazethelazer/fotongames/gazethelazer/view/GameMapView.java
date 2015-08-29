@@ -10,11 +10,15 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.gazethelazer.fotongames.gazethelazer.api.Player;
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerDraw;
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerGame;
 import com.gazethelazer.fotongames.gazethelazer.static_and_final_variables.Final;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,7 +48,8 @@ public class GameMapView extends View {
     Paint mDummyPaint = new Paint();
     Canvas mDummyCanvas = new Canvas();
 
-    ArrayList<BootstrapButton> mButtons = new ArrayList<BootstrapButton>();
+    ArrayList<BootstrapButton> mButtons = new ArrayList<>();
+    ArrayList<TextView> mLabels = new ArrayList<>();
 
     float mLastTouchX;
     float mLastTouchY;
@@ -52,6 +57,7 @@ public class GameMapView extends View {
     public GameMapView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mDummyPaint.setStyle(Paint.Style.FILL);
+        mDummyPaint.setStrokeWidth(10);
     }
 
     public GameMapView(Context context, AttributeSet attrs) {
@@ -132,6 +138,11 @@ public class GameMapView extends View {
         mButtons.add(b);
     }
 
+    public void addLabel(TextView t)
+    {
+        mLabels.add(t);
+    }
+
     public void hideButtons()
     {
         for (BootstrapButton b : mButtons)
@@ -166,7 +177,7 @@ public class GameMapView extends View {
 
         mControllerGame.turn(x, y, axisx, axisy);
         hideButtons();
-        invalidate();
+        redraw();
     }
 
     @Override
@@ -271,7 +282,7 @@ public class GameMapView extends View {
                             int[] axis = mControllerGame.getEdgeSingularMove(moves);
 
                             mControllerGame.turn(sq_x, sq_y, axis[0], axis[1]);
-                            invalidate();
+                            redraw();
                         }
                         else if (sum > 1)
                         {
@@ -308,16 +319,8 @@ public class GameMapView extends View {
         return true;
     }
 
-    @Override
-    public void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-        canvas.save();
-
-        canvas.translate(mShiftX, mShiftY);
-
-//        Log.i("lazer", "bounds set: "+ rect.left  + " " + rect.top + " " + rect.right + " " + rect.bottom);
-
+    public void redraw()
+    {
         int[][][][] rendered = mControllerDraw.getRenderedArray();
 
         int width_sq = mControllerDraw.getmWidthInSquares();
@@ -333,17 +336,46 @@ public class GameMapView extends View {
                     int color = rendered[i][j][k][4];
 
                     mDummyPaint.setColor(color);
-                    mDummyPaint.setStrokeWidth(10);
-//                    if (color == Color.GRAY) {
-//                        mDummyPaint.setAlpha(50);
-//                    }
-//                    Log.d("Color", "ALPHA = " + mDummyPaint.getAlpha() + " COLOR =  " + color);
-//                    Log.i("lazer", startx + " " + starty + " " + endx + " " + endy + " " + color);
-
                     mDummyCanvas.drawLine(startx, starty, endx, endy, mDummyPaint);
-//                    mDummyPaint.setAlpha(255);
                 }
             }
+        }
+
+        invalidate();
+        updateScores();
+    }
+
+    public void updateScores()
+    {
+        for (int i = 0; i < mControllerGame.getPlayersNumber(); i++)
+        {
+            Player p = mControllerGame.getPlayer(i);
+            TextView label = mLabels.get(i);
+            if (label.getVisibility() == INVISIBLE)
+                label.setVisibility(VISIBLE);
+
+            if (p == mControllerGame.getCurrentPlayer())
+                label.setTextColor(Color.RED);
+            else
+                label.setTextColor(Color.BLACK);
+            label.setText("Player " + (p.getNumber()+1) + ": " + p.getScore());
+        }
+    }
+
+    boolean initial = false;
+
+    @Override
+    public void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+        canvas.save();
+
+        canvas.translate(mShiftX, mShiftY);
+
+        if (!initial)
+        {
+            redraw();
+            initial = true;
         }
 
         int left = -(int) mShiftX;
