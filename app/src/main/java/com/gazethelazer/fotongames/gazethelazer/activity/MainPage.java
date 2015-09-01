@@ -30,7 +30,8 @@ public class MainPage extends Activity {
     private EditText edName;
     private SeekBar seekBarSounds, seekBarMusic;
     private Animation rotate_and_scale, rotate_minus;
-    private BootstrapButton btnSingle, btnMulty, btnInfo;
+    private BootstrapButton btnMulty, btnInfo;
+    private BootstrapButton btnSingle;
     private PopupWindow pWindow;
     private boolean CONTERSETTINGSCLICL = true;
     private boolean ISSHOWING = false;
@@ -49,6 +50,7 @@ public class MainPage extends Activity {
         edName = (EditText) findViewById(R.id.edName);
 
         btnSingle = (BootstrapButton) findViewById(R.id.btnSingle);
+        btnSingle.setVisibility(View.GONE);
         btnMulty = (BootstrapButton) findViewById(R.id.btnMulty);
         btnInfo = (BootstrapButton) findViewById(R.id.btnInfo);
 
@@ -73,7 +75,7 @@ public class MainPage extends Activity {
                 if (CONTERSETTINGSCLICL) {
                     imageSettings.startAnimation(rotate_minus);
                     controllerrSettings.appearOrDisappearView(btnInfo, Final.MOVINGMINUS, Final.VISIBILITYGONE);
-                    controllerrSettings.appearOrDisappearView(btnSingle, Final.MOVINGMINUS, Final.VISIBILITYGONE);
+//                    controllerrSettings.appearOrDisappearView(btnSingle, Final.MOVINGMINUS, Final.VISIBILITYGONE);
                     controllerrSettings.appearOrDisappearView(btnMulty, Final.MOVINGMINUS, Final.VISIBILITYGONE);
 
                     controllerrSettings.appearOrDisappearView(tvMusic, Final.MOVINGZERO, Final.VISIBILITYVISIBLE);
@@ -86,7 +88,7 @@ public class MainPage extends Activity {
                 } else {
                     imageSettings.startAnimation(rotate_and_scale);
                     controllerrSettings.appearOrDisappearView(btnInfo, Final.MOVINGZERO, Final.VISIBILITYVISIBLE);
-                    controllerrSettings.appearOrDisappearView(btnSingle, Final.MOVINGZERO, Final.VISIBILITYVISIBLE);
+//                    controllerrSettings.appearOrDisappearView(btnSingle, Final.MOVINGZERO, Final.VISIBILITYVISIBLE);
                     controllerrSettings.appearOrDisappearView(btnMulty, Final.MOVINGZERO, Final.VISIBILITYVISIBLE);
 
                     controllerrSettings.appearOrDisappearView(tvMusic, Final.MOVINGPLUS, Final.VISIBILITYGONE);
@@ -105,6 +107,7 @@ public class MainPage extends Activity {
             public void onClick(View v) {
                 if (popupWindow.isShowing()) {
                     popupWindow.dismiss();
+                    return;
                 }
                 ISSHOWING = true;
                 BootstrapButton btnAsshole = (BootstrapButton) popupView.findViewById(R.id.btnGiveMoney);
@@ -113,7 +116,7 @@ public class MainPage extends Activity {
             }
         });
 
-        btnSingle.setOnClickListener(new View.OnClickListener() {
+        btnMulty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intentSingle = new Intent(MainPage.this, GameActivity.class);
