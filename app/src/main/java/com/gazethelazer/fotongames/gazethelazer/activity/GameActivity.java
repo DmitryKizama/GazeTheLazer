@@ -54,6 +54,7 @@ public class GameActivity extends Activity {
         mGameMapView.addButton((BootstrapButton) findViewById(R.id.arrowButton2));
         mGameMapView.addLabel((TextView) findViewById(R.id.textView));
         mGameMapView.addLabel((TextView) findViewById(R.id.textView2));
+        mGameMapView.addLabel((TextView) findViewById(R.id.textView3));
     }
 
     public void onArrowClick(View v)

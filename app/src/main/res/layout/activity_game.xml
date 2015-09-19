@@ -41,4 +41,14 @@
         android:paddingTop="30dp"
         android:visibility="invisible"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="GAME OVER"
+        android:id="@+id/textView3"
+        android:layout_gravity="center"
+        android:textSize="40dp"
+        android:visibility="invisible"/>
+
 </FrameLayout>

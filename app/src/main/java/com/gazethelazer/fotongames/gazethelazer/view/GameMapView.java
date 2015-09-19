@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -17,8 +16,6 @@ import com.gazethelazer.fotongames.gazethelazer.api.Player;
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerDraw;
 import com.gazethelazer.fotongames.gazethelazer.controller.ControllerGame;
 import com.gazethelazer.fotongames.gazethelazer.static_and_final_variables.Final;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -93,11 +90,9 @@ public class GameMapView extends View {
     }
 
     public void createChooser(float x, float y, int[] moves) {
+        showButtons();
         BootstrapButton first = mButtons.get(0);
         BootstrapButton second = mButtons.get(1);
-
-        first.setVisibility(VISIBLE);
-        second.setVisibility(VISIBLE);
 
         float dragx = 0, dragy = 0;
         float shift = Final.BUTTON_SHIFT;
@@ -143,12 +138,25 @@ public class GameMapView extends View {
         mLabels.add(t);
     }
 
+    public void showButtons()
+    {
+        for (BootstrapButton b : mButtons)
+        {
+            b.setVisibility(VISIBLE);
+        }
+    }
+
     public void hideButtons()
     {
         for (BootstrapButton b : mButtons)
         {
             b.setVisibility(INVISIBLE);
         }
+    }
+
+    public void showLabel()
+    {
+        mLabels.get(mLabels.size()-1).setVisibility(VISIBLE);
     }
 
     public void onArrowClick(View v)
@@ -360,6 +368,9 @@ public class GameMapView extends View {
                 label.setTextColor(Color.BLACK);
             label.setText("Player " + (p.getNumber()+1) + ": " + p.getScore());
         }
+
+        if (mControllerGame.gameOver())
+            showLabel();
     }
 
     boolean initial = false;

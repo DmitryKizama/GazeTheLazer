@@ -25,6 +25,7 @@ public class ControllerGame {
 
     Square[][] mLastTurnField;
     ControllerDraw mControllerDraw;
+    private boolean mGameOver;
 
     public ControllerGame(MatrixAPI matrix) {
         model = matrix;
@@ -174,18 +175,20 @@ public class ControllerGame {
                 Log.d("ControllerGame", "axisY = " + myAxisY);
                 iY = whileY(iX, iY, myAxisY);
             }
+            // WTF: random constant?
             if (i == 40) {
                 nextTurnIsOver = true;
             }
         }
 
         int curscore = calculateScore(field, mLastTurnField);
-        totalScore += curscore;
         getCurrentPlayer().addScore(curscore);
+
+        totalScore += curscore;
 
         if (totalScore == model.getNotEmptySquares())
         {
-            Log.i("lazer", "Game over");
+            mGameOver = true;
         }
         else
         {
@@ -305,5 +308,10 @@ public class ControllerGame {
         }
 
         return output;
+    }
+
+    public boolean gameOver()
+    {
+        return mGameOver;
     }
 }
