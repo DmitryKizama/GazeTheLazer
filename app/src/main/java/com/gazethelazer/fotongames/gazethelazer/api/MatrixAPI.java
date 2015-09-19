@@ -9,15 +9,24 @@ import java.util.Random;
 public class MatrixAPI {
 
     private Square[][] matrix;
-    private int widthsM;
-    private int heightsM;
+    private int mWidth;
+    private int mHeight;
     private Random random = new Random();
+
+    int mNotEmptySquares = 0;
 
     public MatrixAPI(int heights, int widths) {
         matrix = new Square[heights][widths];
-        this.heightsM = heights;
-        this.widthsM = widths;
+        this.mHeight = heights;
+        this.mWidth = widths;
         setRandomMap();
+
+        for (int i = 0; i < mHeight; i++) {
+            for (int j = 0; j < mWidth; j++) {
+                if (matrix[i][j] != null)
+                    mNotEmptySquares++;
+            }
+        }
     }
 
     public Square[][] getMatrix() {
@@ -26,8 +35,8 @@ public class MatrixAPI {
 
     private void setRandomMap() {
         Log.d("Matrix", "Enter in setRandomMap");
-        int centerW = Math.round(widthsM / 2);
-        int centerH = Math.round(heightsM / 2);
+        int centerW = Math.round(mWidth / 2);
+        int centerH = Math.round(mHeight / 2);
         int numberOfRepeat = 1;
         matrix[centerH][centerW] = new Square();
         for (int i = 0; i < Final.MIN_SIZE_PLAYGROUND; i++) {
@@ -40,19 +49,19 @@ public class MatrixAPI {
             }
         }
 
-        if (widthsM > 55 && heightsM > 55)
+        if (mWidth > 55 && mHeight > 55)
             numberOfRepeat = 2;
-        if (widthsM > 110 && heightsM > 110)
+        if (mWidth > 110 && mHeight > 110)
             numberOfRepeat = 4;
-        if (widthsM > 165 && heightsM > 165)
+        if (mWidth > 165 && mHeight > 165)
             numberOfRepeat = 6;
-        if (widthsM > 220 && heightsM > 220)
+        if (mWidth > 220 && mHeight > 220)
             numberOfRepeat = 8;
 
         for (int k = 0; k < numberOfRepeat; k++) {
 
-            for (int i = 1; i < heightsM - 1; i++) {
-                for (int j = 1; j < widthsM - 1; j++) {
+            for (int i = 1; i < mHeight - 1; i++) {
+                for (int j = 1; j < mWidth - 1; j++) {
                     if (random.nextBoolean()) {
                         if (matrix[i][j - 1] != null)
                             matrix[i][j] = new Square();
@@ -65,8 +74,8 @@ public class MatrixAPI {
                     }
                 }
             }
-            for (int i = heightsM - 2; i > 1; i--) {
-                for (int j = widthsM - 2; j > 1; j--) {
+            for (int i = mHeight - 2; i > 1; i--) {
+                for (int j = mWidth - 2; j > 1; j--) {
                     if (random.nextBoolean()) {
                         if (matrix[i][j - 1] != null)
                             matrix[i][j] = new Square();
@@ -90,6 +99,11 @@ public class MatrixAPI {
 //        }
 
 
+    }
+
+    public int getNotEmptySquares()
+    {
+        return mNotEmptySquares;
     }
 
 }

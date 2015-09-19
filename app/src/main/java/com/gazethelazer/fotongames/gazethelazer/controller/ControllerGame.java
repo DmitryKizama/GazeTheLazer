@@ -14,6 +14,7 @@ public class ControllerGame {
     private Square[][] field;
     int height;
     int width;
+    int totalScore = 0;
     boolean nextTurnIsOver;
 
     int myAxisX;
@@ -28,6 +29,9 @@ public class ControllerGame {
     public ControllerGame(MatrixAPI matrix) {
         model = matrix;
         field = matrix.getMatrix();
+
+        width = field[0].length;
+        height = field.length;
     }
 
     public void addPlayer()
@@ -116,9 +120,6 @@ public class ControllerGame {
             turn[i] = 0;
         }
 
-        width = field[0].length;
-        height = field.length;
-
         if (x > 0 && y > 0 && x < width && y < height) {
             if (field[y][x] != null) {
                 if (field[y - 1][x] != null) {
@@ -178,8 +179,18 @@ public class ControllerGame {
             }
         }
 
-        getCurrentPlayer().addScore(calculateScore(field, mLastTurnField));
-        moveToNextPlayer();
+        int curscore = calculateScore(field, mLastTurnField);
+        totalScore += curscore;
+        getCurrentPlayer().addScore(curscore);
+
+        if (totalScore == model.getNotEmptySquares())
+        {
+            Log.i("lazer", "Game over");
+        }
+        else
+        {
+            moveToNextPlayer();
+        }
 
         mControllerDraw.render(model);
     }
